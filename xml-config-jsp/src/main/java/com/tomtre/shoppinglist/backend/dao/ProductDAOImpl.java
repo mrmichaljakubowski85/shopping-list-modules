@@ -36,7 +36,7 @@ public class ProductDAOImpl implements ProductDAO {
     @Override
     public void removeProduct(UUID productId) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("delete from Product where id = :productId");
+        Query query = session.createQuery("delete from Product p where p.id = :productId");
         query.setParameter("productId", productId);
         query.executeUpdate();
     }
@@ -44,12 +44,28 @@ public class ProductDAOImpl implements ProductDAO {
     @Override
     public void saveProduct(Product product) {
         Session session = sessionFactory.getCurrentSession();
-        session.persist(product);
+        session.save(product);
     }
 
     @Override
     public void updateProduct(Product product) {
         Session session = sessionFactory.getCurrentSession();
-        session.merge(product);
+        session.update(product);
+    }
+
+    @Override
+    public void checkProduct(UUID productId) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("update Product p set p.checked = true where p.id = :productId");
+        query.setParameter("productId", productId);
+        query.executeUpdate();
+    }
+
+    @Override
+    public void uncheckProduct(UUID productId) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("update Product p set p.checked = false where p.id = :productId");
+        query.setParameter("productId", productId);
+        query.executeUpdate();
     }
 }

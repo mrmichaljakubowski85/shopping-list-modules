@@ -17,4 +17,8 @@ public interface ProductDAO {
     void saveProduct(Product product);
 
     void updateProduct(Product product);
+
+    void checkProduct(UUID productId);
+
+    void uncheckProduct(UUID productId);
 }

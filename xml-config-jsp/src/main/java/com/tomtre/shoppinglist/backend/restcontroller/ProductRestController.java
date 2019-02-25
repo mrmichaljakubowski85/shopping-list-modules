@@ -34,13 +34,13 @@ public class ProductRestController {
 
     @PostMapping("/products")
     public Product addProduct(@RequestBody Product product) throws ProductAlreadyExistsException {
-        productService.add(product);
+        productService.addProduct(product);
         return product;
     }
 
     @PutMapping("/products")
     public Product updateProduct(@RequestBody Product product) {
-        productService.update(product);
+        productService.updateProduct(product);
         return product;
     }
 

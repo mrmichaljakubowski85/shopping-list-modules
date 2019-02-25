@@ -36,18 +36,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void update(Product product) {
+    public void updateProduct(Product product) {
         productDAO.updateProduct(product);
     }
 
     @Override
-    public void add(Product product) throws ProductAlreadyExistsException {
+    public void addProduct(Product product) throws ProductAlreadyExistsException {
         UUID id = product.getId();
         if (id == null) {
             product.setId(UUID.randomUUID());
             productDAO.saveProduct(product);
         } else {
-            //make sure we don't have conflict with IDs
+            //We have to make sure there is no conflict with IDs
             Product productFromRepository = productDAO.getProduct(id);
             if (productFromRepository == null) {
                 productDAO.saveProduct(product);
@@ -60,6 +60,16 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProduct(UUID productId) {
         productDAO.removeProduct(productId);
+    }
+
+    @Override
+    public void checkProduct(UUID productId) {
+        productDAO.checkProduct(productId);
+    }
+
+    @Override
+    public void uncheckProduct(UUID productId) {
+        productDAO.uncheckProduct(productId);
     }
 
 }

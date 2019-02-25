@@ -3,19 +3,34 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Add new Product</title>
+    <c:choose>
+        <c:when test="${product.id == null}">
+            <title>Add new Product</title>
+        </c:when>
+        <c:otherwise>
+            <title>Edit Product</title>
+        </c:otherwise>
+    </c:choose>
+
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css"/>
 </head>
 <body>
 <div id="wrapper">
     <div id="header">
-        <h3>Add new Product</h3>
+        <c:choose>
+            <c:when test="${product.id == null}">
+                <h3>Add new Product</h3>
+            </c:when>
+            <c:otherwise>
+                <h3>Edit Product</h3>
+            </c:otherwise>
+        </c:choose>
     </div>
 </div>
 <div id="container">
     <div id="content">
 
-                <form:form action="saveProduct" modelAttribute="product" method="post">
+                <form:form action="save" modelAttribute="product" method="post">
                     <form:hidden path="id"/>
                     <table>
                         <tbody>

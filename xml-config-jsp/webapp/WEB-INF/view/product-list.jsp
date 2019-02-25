@@ -14,7 +14,7 @@
 <div id="container">
     <div id="content">
 
-        <input type="button" value="Add Product" onclick="window.location.href='add'; return false;"
+        <input type="button" value="Add Product" onclick="window.location.href='addProduct'; return false;"
                class="add-button"/>
 
         <table>
@@ -23,23 +23,33 @@
                 <th>Quantity</th>
                 <th>Unit</th>
                 <th>Checked</th>
+                <th>Action</th>
             </tr>
             <c:forEach var="product" items="${products}">
-                <c:url var="updateProductLink" value="/product/update">
+
+                <c:url var="productDetailsLink" value="/product/details">
                     <c:param name="productId" value="${product.id}"/>
                 </c:url>
                 <c:url var="deleteProductLink" value="/product/delete">
                     <c:param name="productId" value="${product.id}"/>
+                </c:url>
+                <c:url var="checkProductLink" value="/product/check">
+                    <c:param name="productId" value="${product.id}"/>
+                    <c:param name="action" value="${product.checked ? true : false}"/>
                 </c:url>
                 <tr>
                     <th>${product.title}</th>
                     <th>${product.description}</th>
                     <th>${product.quantity}</th>
                     <th>${product.unit}</th>
-                    <th>${product.checked}</th>
+                    <th>
+                            ${product.checked}
+                            |
+                             <a href="${checkProductLink}">Check/Uncheck</a>
+                    </th>
 
                     <td>
-                        <a href="${updateProductLink}">Update</a>
+                        <a href="${productDetailsLink}">Details</a>
                         |
                         <a href="${deleteProductLink}">Remove</a>
                     </td>

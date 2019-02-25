@@ -11,11 +11,15 @@ public interface ProductService {
 
     List<Product> getProducts();
 
-    void update(Product product);
-
-    void add(Product product) throws ProductAlreadyExistsException;
-
     Product getProduct(UUID productId) throws ProductNotFoundException;
 
+    void updateProduct(Product product);
+
+    void addProduct(Product product) throws ProductAlreadyExistsException;
+
     void deleteProduct(UUID productId);
+
+    void checkProduct(UUID productId);
+
+    void uncheckProduct(UUID productId);
 }

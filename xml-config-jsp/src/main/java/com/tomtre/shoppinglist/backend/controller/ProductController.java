@@ -27,40 +27,41 @@ public class ProductController {
     public String listProducts(Model model) {
         List<Product> products = productService.getProducts();
         model.addAttribute("products", products);
-        return "list-products";
+        return "product-list";
     }
 
     @GetMapping("/add")
     public String addProductForm(Model model) {
         Product product = new Product();
         model.addAttribute("product", product);
-        return "product-form";
+        return "add-edit-product-form";
     }
 
-    @PostMapping("/saveProduct")
-    public String addOrUpdateProduct(@ModelAttribute("product") Product product) {
-        if (product.getId() == null) {
-            try {
-                productService.add(product);
-            } catch (ProductAlreadyExistsException e) {
-                //todo show custom page with error
-            }
-        } else {
-            productService.update(product);
-        }
-        return "redirect:/product/list";
-    }
-
-    @GetMapping("/update")
-    public String updateProduct(@RequestParam("productId") UUID productId, Model model) {
-        Product product = null;
+    @GetMapping("/edit")
+    public String editProduct(@RequestParam("productId") UUID productId, Model model) {
         try {
-            product = productService.getProduct(productId);
+            Product product = productService.getProduct(productId);
             model.addAttribute("product", product);
+            return "add-edit-product-form";
         } catch (ProductNotFoundException e) {
             //todo show custom page with error
+            return null;
         }
-        return "product-form";
+    }
+
+    @PostMapping("/save")
+    public String saveProduct(@ModelAttribute("product") Product product) {
+        if (product.getId() == null) {
+            try {
+                productService.addProduct(product);
+            } catch (ProductAlreadyExistsException e) {
+                //todo show custom page with error
+//                return "redirect:/product/errorrrrr";
+            }
+        } else {
+            productService.updateProduct(product);
+        }
+        return "redirect:/product/list";
     }
 
     @GetMapping("/delete")
@@ -68,4 +69,27 @@ public class ProductController {
         productService.deleteProduct(productId);
         return "redirect:/product/list";
     }
+
+    @GetMapping("/details")
+    public String productDetails(@RequestParam("productId") UUID productId, Model model) {
+        try {
+            Product product = productService.getProduct(productId);
+            model.addAttribute("product", product);
+            return "product-details";
+        } catch (ProductNotFoundException e) {
+            //todo show custom page with error
+            return null;
+        }
+    }
+
+    @GetMapping("/check")
+    public String checkProduct(@RequestParam("productId") UUID productId, @RequestParam("type") boolean check) {
+        if (check) {
+            productService.checkProduct(productId);
+        } else {
+            productService.uncheckProduct(productId);
+        }
+        return "redirect:/product/list";
+    }
+
 }
