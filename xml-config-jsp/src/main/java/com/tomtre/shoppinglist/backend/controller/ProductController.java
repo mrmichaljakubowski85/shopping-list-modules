@@ -1,7 +1,8 @@
 package com.tomtre.shoppinglist.backend.controller;
 
 import com.tomtre.shoppinglist.backend.entity.Product;
-import com.tomtre.shoppinglist.backend.exception.ProductAlreadyExistsException;
+import com.tomtre.shoppinglist.backend.exception.BadRequestException;
+import com.tomtre.shoppinglist.backend.exception.ProductExistsException;
 import com.tomtre.shoppinglist.backend.exception.ProductNotFoundException;
 import com.tomtre.shoppinglist.backend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,26 +39,16 @@ public class ProductController {
     }
 
     @GetMapping("/edit")
-    public String editProduct(@RequestParam("productId") UUID productId, Model model) {
-        try {
-            Product product = productService.getProduct(productId);
-            model.addAttribute("product", product);
-            return "add-edit-product-form";
-        } catch (ProductNotFoundException e) {
-            //todo show custom page with error
-            return null;
-        }
+    public String editProduct(@RequestParam("productId") UUID productId, Model model) throws ProductNotFoundException {
+        Product product = productService.getProduct(productId);
+        model.addAttribute("product", product);
+        return "add-edit-product-form";
     }
 
     @PostMapping("/save")
-    public String saveProduct(@ModelAttribute("product") Product product) {
+    public String saveProduct(@ModelAttribute("product") Product product) throws ProductExistsException {
         if (product.getId() == null) {
-            try {
-                productService.addProduct(product);
-            } catch (ProductAlreadyExistsException e) {
-                //todo show custom page with error
-//                return "redirect:/product/errorrrrr";
-            }
+            productService.addProduct(product);
         } else {
             productService.updateProduct(product);
         }
@@ -71,23 +62,23 @@ public class ProductController {
     }
 
     @GetMapping("/details")
-    public String productDetails(@RequestParam("productId") UUID productId, Model model) {
-        try {
-            Product product = productService.getProduct(productId);
-            model.addAttribute("product", product);
-            return "product-details";
-        } catch (ProductNotFoundException e) {
-            //todo show custom page with error
-            return null;
-        }
+    public String productDetails(@RequestParam("productId") UUID productId, Model model) throws ProductNotFoundException {
+        Product product = productService.getProduct(productId);
+        model.addAttribute("product", product);
+        return "product-details";
     }
 
     @GetMapping("/check")
-    public String checkProduct(@RequestParam("productId") UUID productId, @RequestParam("type") boolean check) {
-        if (check) {
-            productService.checkProduct(productId);
-        } else {
-            productService.uncheckProduct(productId);
+    public String checkProduct(@RequestParam("productId") UUID productId, @RequestParam("action") String actionType) throws BadRequestException {
+        switch (actionType) {
+            case "check":
+                productService.checkProduct(productId);
+                break;
+            case "uncheck":
+                productService.uncheckProduct(productId);
+                break;
+            default:
+                throw new BadRequestException();
         }
         return "redirect:/product/list";
     }

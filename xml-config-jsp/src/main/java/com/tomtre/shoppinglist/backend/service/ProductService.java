@@ -1,7 +1,7 @@
 package com.tomtre.shoppinglist.backend.service;
 
 import com.tomtre.shoppinglist.backend.entity.Product;
-import com.tomtre.shoppinglist.backend.exception.ProductAlreadyExistsException;
+import com.tomtre.shoppinglist.backend.exception.ProductExistsException;
 import com.tomtre.shoppinglist.backend.exception.ProductNotFoundException;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public interface ProductService {
 
     void updateProduct(Product product);
 
-    void addProduct(Product product) throws ProductAlreadyExistsException;
+    void addProduct(Product product) throws ProductExistsException;
 
     void deleteProduct(UUID productId);
 

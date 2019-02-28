@@ -2,7 +2,7 @@ package com.tomtre.shoppinglist.backend.restcontroller;
 
 import com.tomtre.shoppinglist.backend.RestServiceDescriptor;
 import com.tomtre.shoppinglist.backend.entity.Product;
-import com.tomtre.shoppinglist.backend.exception.ProductAlreadyExistsException;
+import com.tomtre.shoppinglist.backend.exception.ProductExistsException;
 import com.tomtre.shoppinglist.backend.exception.ProductNotFoundException;
 import com.tomtre.shoppinglist.backend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class ProductRestController {
     }
 
     @PostMapping("/products")
-    public Product addProduct(@RequestBody Product product) throws ProductAlreadyExistsException {
+    public Product addProduct(@RequestBody Product product) throws ProductExistsException {
         productService.addProduct(product);
         return product;
     }

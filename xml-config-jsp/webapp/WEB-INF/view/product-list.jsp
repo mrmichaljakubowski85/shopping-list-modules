@@ -14,7 +14,7 @@
 <div id="container">
     <div id="content">
 
-        <input type="button" value="Add Product" onclick="window.location.href='addProduct'; return false;"
+        <input type="button" value="Add Product" onclick="window.location.href='add'; return false;"
                class="add-button"/>
 
         <table>
@@ -35,7 +35,7 @@
                 </c:url>
                 <c:url var="checkProductLink" value="/product/check">
                     <c:param name="productId" value="${product.id}"/>
-                    <c:param name="action" value="${product.checked ? true : false}"/>
+                    <c:param name="action" value="${product.checked ? 'uncheck' : 'check'}"/>
                 </c:url>
                 <tr>
                     <th>${product.title}</th>

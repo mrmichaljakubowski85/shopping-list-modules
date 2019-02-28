@@ -3,12 +3,13 @@ package com.tomtre.shoppinglist.backend.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "product")
+@Table
 public class Product extends BaseEntity {
 
     @Column(nullable = false)
     private String title;
 
+    @Column(length = 1000)
     private String description;
 
     private String quantity;

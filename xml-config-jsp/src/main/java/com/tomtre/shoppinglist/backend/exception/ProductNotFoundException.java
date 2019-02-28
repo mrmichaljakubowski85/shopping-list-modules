@@ -1,23 +1,29 @@
 package com.tomtre.shoppinglist.backend.exception;
 
-public class ProductNotFoundException extends Exception {
-    public ProductNotFoundException() {
-        super();
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+import java.util.UUID;
+
+public class ProductNotFoundException extends BaseProductException {
+
+    public ProductNotFoundException(UUID productId) {
+        super(productId);
     }
 
-    public ProductNotFoundException(String message) {
-        super(message);
+    public ProductNotFoundException(String message, UUID productId) {
+        super(message, productId);
     }
 
-    public ProductNotFoundException(String message, Throwable cause) {
-        super(message, cause);
+    public ProductNotFoundException(String message, Throwable cause, UUID productId) {
+        super(message, cause, productId);
     }
 
-    public ProductNotFoundException(Throwable cause) {
-        super(cause);
+    public ProductNotFoundException(Throwable cause, UUID productId) {
+        super(cause, productId);
     }
 
-    protected ProductNotFoundException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
+    public ProductNotFoundException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace, UUID productId) {
+        super(message, cause, enableSuppression, writableStackTrace, productId);
     }
 }
