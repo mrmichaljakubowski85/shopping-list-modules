@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table
+//todo add validation for fields lenght
 public class Product extends BaseEntity {
 
     @Column(nullable = false)
@@ -20,7 +21,6 @@ public class Product extends BaseEntity {
     private boolean checked;
 
     public Product() {
-
     }
 
     public Product(String title, String description, String quantity, String unit, boolean checked) {

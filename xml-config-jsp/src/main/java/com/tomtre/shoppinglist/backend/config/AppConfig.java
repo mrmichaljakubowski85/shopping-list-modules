@@ -1,4 +1,4 @@
-package com.tomtre.shoppinglist.backend;
+package com.tomtre.shoppinglist.backend.config;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.hibernate.SessionFactory;
@@ -111,4 +111,5 @@ public class AppConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
+
 }

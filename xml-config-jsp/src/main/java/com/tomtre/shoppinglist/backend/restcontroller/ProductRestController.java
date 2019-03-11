@@ -1,6 +1,6 @@
 package com.tomtre.shoppinglist.backend.restcontroller;
 
-import com.tomtre.shoppinglist.backend.RestServiceDescriptor;
+import com.tomtre.shoppinglist.backend.config.RestServiceDescriptor;
 import com.tomtre.shoppinglist.backend.entity.Product;
 import com.tomtre.shoppinglist.backend.exception.ProductExistsException;
 import com.tomtre.shoppinglist.backend.exception.ProductNotFoundException;

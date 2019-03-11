@@ -6,8 +6,10 @@ import com.tomtre.shoppinglist.backend.exception.ProductExistsException;
 import com.tomtre.shoppinglist.backend.exception.ProductNotFoundException;
 import com.tomtre.shoppinglist.backend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
