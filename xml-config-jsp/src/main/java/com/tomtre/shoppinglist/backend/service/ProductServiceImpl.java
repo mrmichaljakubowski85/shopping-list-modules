@@ -75,4 +75,5 @@ public class ProductServiceImpl implements ProductService {
         productDAO.uncheckProduct(productId);
     }
 
+    public void test() {}
 }
