@@ -1,4 +1,4 @@
-package com.tomtre.shoppinglist.backend.config;
+package com.tomtre.shoppinglist.backend;
 
 public class RestServiceDescriptor {
     private static final String API_VERSION_1 = "v1";

@@ -1,6 +1,6 @@
 package com.tomtre.shoppinglist.backend.service;
 
-import com.tomtre.shoppinglist.backend.dao.ProductDAO;
+import com.tomtre.shoppinglist.backend.dao.ProductDao;
 import com.tomtre.shoppinglist.backend.entity.Product;
 import com.tomtre.shoppinglist.backend.exception.ProductExistsException;
 import com.tomtre.shoppinglist.backend.exception.ProductNotFoundException;
@@ -16,10 +16,10 @@ import java.util.UUID;
 @Transactional
 public class ProductServiceImpl implements ProductService {
 
-    private final ProductDAO productDAO;
+    private final ProductDao productDAO;
 
     @Autowired
-    public ProductServiceImpl(ProductDAO productDAO) {
+    public ProductServiceImpl(ProductDao productDAO) {
         this.productDAO = productDAO;
     }
 
@@ -75,5 +75,4 @@ public class ProductServiceImpl implements ProductService {
         productDAO.uncheckProduct(productId);
     }
 
-    public void test() {}
 }

@@ -1,6 +1,5 @@
 package com.tomtre.shoppinglist.backend.controller;
 
-import com.sun.org.apache.regexp.internal.RE;
 import com.tomtre.shoppinglist.backend.exception.BadRequestException;
 import com.tomtre.shoppinglist.backend.exception.ProductExistsException;
 import com.tomtre.shoppinglist.backend.exception.ProductNotFoundException;

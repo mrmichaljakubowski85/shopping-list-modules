@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 
-public interface ProductDAO {
+public interface ProductDao {
 
     List<Product> getProducts();
 

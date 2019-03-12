@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 @FieldMatch.List(
         @FieldMatch(first = "password", second = "matchingPassword", message = "The password fields must match")
 )
-public class RegisterUserDTO {
+public class RegisterUserDto {
 
     @NotNull(message = "is required")
     private String userName;
@@ -29,7 +29,7 @@ public class RegisterUserDTO {
     @Email
     private String email;
 
-    public RegisterUserDTO() {
+    public RegisterUserDto() {
 
     }
 
@@ -80,4 +80,6 @@ public class RegisterUserDTO {
     public void setEmail(String email) {
         this.email = email;
     }
+
+
 }

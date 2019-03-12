@@ -6,13 +6,13 @@ import javax.persistence.MappedSuperclass;
 import java.util.UUID;
 
 @MappedSuperclass
-public abstract class BaseEntity {
+public abstract class BaseUuidEntity {
 
-    public static final String ID_NAME = "id";
+    public static final String ID_COLUMN_NAME = "id";
 
     //we don't use @GeneratedValue because it is UUID and the Entity can come with already set value
     @Id
-    @Column(name = ID_NAME)
+    @Column(name = ID_COLUMN_NAME)
     private UUID id;
 
     public UUID getId() {
@@ -25,7 +25,7 @@ public abstract class BaseEntity {
 
     @Override
     public String toString() {
-        return "BaseEntity{" +
+        return "BaseUuidEntity{" +
                 "id=" + id +
                 '}';
     }

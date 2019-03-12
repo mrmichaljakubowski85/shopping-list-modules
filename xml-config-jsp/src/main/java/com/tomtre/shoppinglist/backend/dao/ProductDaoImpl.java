@@ -1,6 +1,5 @@
 package com.tomtre.shoppinglist.backend.dao;
 
-import com.tomtre.shoppinglist.backend.entity.BaseEntity;
 import com.tomtre.shoppinglist.backend.entity.Product;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -16,12 +15,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class ProductDAOImpl implements ProductDAO {
+public class ProductDaoImpl implements ProductDao {
 
     private final SessionFactory sessionFactory;
 
     @Autowired
-    public ProductDAOImpl(SessionFactory sessionFactory) {
+    public ProductDaoImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
@@ -81,8 +80,8 @@ public class ProductDAOImpl implements ProductDAO {
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<UUID> criteriaQuery = criteriaBuilder.createQuery(UUID.class);
         Root<Product> root = criteriaQuery.from(Product.class);
-        criteriaQuery.select(root.get(BaseEntity.ID_NAME));
-        criteriaQuery.where(criteriaBuilder.equal(root.get(BaseEntity.ID_NAME), productId));
+        criteriaQuery.select(root.get(Product.ID_COLUMN_NAME));
+        criteriaQuery.where(criteriaBuilder.equal(root.get(Product.ID_COLUMN_NAME), productId));
         Query<UUID> query = session.createQuery(criteriaQuery);
         UUID uuid = query.uniqueResult();
         return uuid != null;

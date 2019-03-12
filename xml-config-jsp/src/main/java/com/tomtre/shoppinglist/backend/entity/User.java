@@ -5,12 +5,12 @@ import java.util.List;
 
 @Entity
 @Table
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private long id;
+public class User extends BaseIdEntity {
 
-    @Column(nullable = false)
+    public static final String USER_NAME_COLUMN_NAME = "userName";
+    public static final String EMAIL_COLUMN_NAME = "email";
+
+    @Column(name = USER_NAME_COLUMN_NAME, nullable = false)
     private String userName;
 
     @Column(nullable = false)
@@ -21,7 +21,7 @@ public class User {
     @Column(nullable = false)
     private String lastName;
 
-    @Column(nullable = false)
+    @Column(name = EMAIL_COLUMN_NAME, nullable = false)
     private String email;
 
     //created as a list and ManyToMany relationship for future extension
@@ -32,20 +32,15 @@ public class User {
     )
     private List<Role> roles;
 
+    public User() {
+    }
+
     public User(String userName, String password, String firstName, String lastName, String email) {
         this.userName = userName;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getUserName() {
@@ -99,13 +94,12 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", userName='" + userName + '\'' +
+                "userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", roles=" + roles +
-                '}';
+                "} " + super.toString();
     }
 }

@@ -4,8 +4,8 @@ import javax.persistence.*;
 
 @Entity
 @Table
-//todo add validation for fields lenght
-public class Product extends BaseEntity {
+//todo add validation for fields length
+public class Product extends BaseUuidEntity {
 
     @Column(nullable = false)
     private String title;
