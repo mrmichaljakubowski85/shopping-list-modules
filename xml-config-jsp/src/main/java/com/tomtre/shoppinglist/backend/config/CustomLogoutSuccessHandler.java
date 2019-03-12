@@ -1,4 +1,4 @@
-package com.tomtre.shoppinglist.backend;
+package com.tomtre.shoppinglist.backend.config;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;

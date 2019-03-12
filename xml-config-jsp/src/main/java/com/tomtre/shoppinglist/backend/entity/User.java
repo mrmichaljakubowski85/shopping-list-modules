@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table
+@Table(name = "userTemp")
 public class User extends BaseIdEntity {
 
     public static final String USER_NAME_COLUMN_NAME = "userName";

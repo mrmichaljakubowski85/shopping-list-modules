@@ -1,4 +1,4 @@
-package com.tomtre.shoppinglist.backend;
+package com.tomtre.shoppinglist.backend.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 

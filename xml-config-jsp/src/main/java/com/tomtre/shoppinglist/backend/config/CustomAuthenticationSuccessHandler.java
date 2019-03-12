@@ -1,4 +1,4 @@
-package com.tomtre.shoppinglist.backend;
+package com.tomtre.shoppinglist.backend.config;
 
 import com.tomtre.shoppinglist.backend.entity.User;
 import com.tomtre.shoppinglist.backend.service.UserService;

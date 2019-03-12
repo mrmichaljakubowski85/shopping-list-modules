@@ -1,6 +1,6 @@
 package com.tomtre.shoppinglist.backend.service;
 
-import com.tomtre.shoppinglist.backend.SecurityRoles;
+import com.tomtre.shoppinglist.backend.config.SecurityRoles;
 import com.tomtre.shoppinglist.backend.dao.RoleDao;
 import com.tomtre.shoppinglist.backend.dao.UserDao;
 import com.tomtre.shoppinglist.backend.dto.RegisterUserDto;
@@ -19,7 +19,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 
 @Service
 @Transactional
