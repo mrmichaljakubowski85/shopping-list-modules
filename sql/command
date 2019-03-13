@@ -1,0 +1,4 @@
+localhost
+database: postgres
+5432
+username: postgres

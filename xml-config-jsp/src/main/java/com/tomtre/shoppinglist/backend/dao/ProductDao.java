@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface ProductDao {
 
-    List<Product> getProducts();
+    List<Product> getProductsByUserId(long userId);
 
     Optional<Product> getProduct(UUID productId);
 

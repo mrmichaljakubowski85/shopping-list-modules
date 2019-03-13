@@ -1,0 +1,3 @@
+CREATE USER slUser WITH PASSWORD 'slUserPass';
+CREATE DATABASE shopping_list WITH OWNER = slUser;
+GRANT ALL PRIVILEGES ON DATABASE shopping_list TO slUser;

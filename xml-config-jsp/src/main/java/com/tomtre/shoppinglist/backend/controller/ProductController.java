@@ -1,6 +1,7 @@
 package com.tomtre.shoppinglist.backend.controller;
 
 import com.tomtre.shoppinglist.backend.entity.Product;
+import com.tomtre.shoppinglist.backend.entity.User;
 import com.tomtre.shoppinglist.backend.exception.BadRequestException;
 import com.tomtre.shoppinglist.backend.exception.ProductExistsException;
 import com.tomtre.shoppinglist.backend.exception.ProductNotFoundException;
@@ -30,7 +31,8 @@ public class ProductController {
 
     @GetMapping("/list")
     public String listProducts(HttpSession httpSession, Principal principal, Model model) {
-        List<Product> products = productService.getProducts();
+        User user = (User) httpSession.getAttribute("user");
+        List<Product> products = productService.getProductsByUserId(user.getId());
         String userName = principal.getName();
         model.addAttribute("products", products);
         return "product-list";

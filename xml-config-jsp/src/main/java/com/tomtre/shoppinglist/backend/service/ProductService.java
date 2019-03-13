@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface ProductService {
 
-    List<Product> getProducts();
+    List<Product> getProductsByUserId(long userId);
 
     Product getProduct(UUID productId) throws ProductNotFoundException;
 

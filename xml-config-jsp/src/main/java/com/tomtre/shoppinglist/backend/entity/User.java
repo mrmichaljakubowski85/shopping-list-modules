@@ -33,8 +33,7 @@ public class User extends BaseIdEntity {
     )
     private List<Role> roles;
 
-    @OneToMany
-
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Product> products;
 
     public User() {

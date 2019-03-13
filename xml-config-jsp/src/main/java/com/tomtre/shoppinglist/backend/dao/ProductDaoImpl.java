@@ -25,9 +25,9 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public List<Product> getProducts() {
+    public List<Product> getProductsByUserId(long userId) {
         Session session = sessionFactory.getCurrentSession();
-        Query<Product> query = session.createQuery("from Product", Product.class);
+        Query<Product> query = session.createQuery("from Product p where ", Product.class);
         return query.getResultList();
     }
 
