@@ -8,10 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.logging.Logger;
@@ -40,14 +37,14 @@ public class RegistrationController {
         return "registration-form";
     }
 
-    @GetMapping("/processRegistration")
+    @PostMapping("/processRegistration")
     public String processRegistration(
             @ModelAttribute("registerUserDto") @Valid RegisterUserDto registerUserDto,
             BindingResult bindingResult,
             Model model) {
 
         String userName = registerUserDto.getUserName();
-        logger.info("Processing registration form for: " + userName);
+//        logger.info("Processing registration form for: " + userName);
 
         //validation
         if (bindingResult.hasErrors())
@@ -55,21 +52,21 @@ public class RegistrationController {
 
         boolean userNameExists = userService.checkIfUserNameExists(userName);
         if (userNameExists) {
-            logger.warning("User name already exists.");
+//            logger.warning("User name already exists.");
             return handleUserOrEmailExists(model);
         }
 
         String email = registerUserDto.getEmail();
         boolean emailExists = userService.checkIfEmailExists(email);
         if (emailExists) {
-            logger.warning("Email already exists.");
+//            logger.warning("Email already exists.");
             return handleUserOrEmailExists(model);
         }
 
         //create new account
         userService.save(registerUserDto);
 
-        logger.info("Successfully created user: " + userName);
+//        logger.info("Successfully created user: " + userName);
 
         return "registration-confirmation";
     }

@@ -36,7 +36,7 @@
 				<div style="padding-top: 30px" class="panel-body">
 
 					<!-- Login Form -->
-					<form action="${pageContext.request.contextPath}/authenticateTheUser" 
+					<form:form action="${pageContext.request.contextPath}/authenticateTheUser"
 						  method="POST" class="form-horizontal">
 
 					    <!-- Place for messages: error, alert etc ... -->
@@ -72,14 +72,14 @@
 						<div style="margin-bottom: 25px" class="input-group">
 							<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span> 
 							
-							<input type="text" name="username" placeholder="username" class="form-control">
+							<input type="text" path="username" placeholder="username" class="form-control" />
 						</div>
 
 						<!-- Password -->
 						<div style="margin-bottom: 25px" class="input-group">
 							<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span> 
 							
-							<input type="password" name="password" placeholder="password" class="form-control" >
+							<input type="password" path="password" placeholder="password" class="form-control" />
 						</div>
 
 						<!-- Login/Submit Button -->
@@ -91,11 +91,8 @@
 
 						<!-- I'm manually adding tokens ... Bro! -->
 
-						<input type="hidden"
-							   name="${_csrf.parameterName}"
-							   value="${_csrf.token}" />
-						
-					</form>
+
+					</form:form>
 
 				</div>
 				

@@ -2,8 +2,10 @@ package com.tomtre.shoppinglist.backend.entity;
 
 import javax.persistence.*;
 
+
 @Entity
-@Table
+@SequenceGenerator(name = BaseIdEntity.SEQUENCE_GENERATOR_NAME, sequenceName = "role_seq")
+@Table(name = "roles")
 public class Role extends BaseIdEntity {
 
     @Column(nullable = false)

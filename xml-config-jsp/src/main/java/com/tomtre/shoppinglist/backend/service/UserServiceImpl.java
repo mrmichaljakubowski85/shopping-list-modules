@@ -72,8 +72,8 @@ public class UserServiceImpl implements UserService {
 
     //from UserDetailsService
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> userOptional = userDao.findByUserName(username);
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+        Optional<User> userOptional = userDao.findByUserName(userName);
         if (!userOptional.isPresent())
             throw new UsernameNotFoundException("Invalid username");
         return convertUserToSpringUser(userOptional.get());

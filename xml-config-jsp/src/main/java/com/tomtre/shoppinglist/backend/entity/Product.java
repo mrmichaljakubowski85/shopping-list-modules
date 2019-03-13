@@ -3,7 +3,7 @@ package com.tomtre.shoppinglist.backend.entity;
 import javax.persistence.*;
 
 @Entity
-@Table
+@Table(name = "products")
 //todo add validation for fields length
 public class Product extends BaseUuidEntity {
 

@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,8 +29,9 @@ public class ProductController {
     }
 
     @GetMapping("/list")
-    public String listProducts(Model model) {
+    public String listProducts(HttpSession httpSession, Principal principal, Model model) {
         List<Product> products = productService.getProducts();
+        String userName = principal.getName();
         model.addAttribute("products", products);
         return "product-list";
     }

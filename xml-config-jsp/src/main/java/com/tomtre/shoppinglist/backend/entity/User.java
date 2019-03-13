@@ -4,7 +4,8 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "userTemp")
+@SequenceGenerator(name = BaseIdEntity.SEQUENCE_GENERATOR_NAME, sequenceName = "user_seq")
+@Table(name = "users")
 public class User extends BaseIdEntity {
 
     public static final String USER_NAME_COLUMN_NAME = "userName";
@@ -31,6 +32,10 @@ public class User extends BaseIdEntity {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private List<Role> roles;
+
+    @OneToMany
+
+    private List<Product> products;
 
     public User() {
     }

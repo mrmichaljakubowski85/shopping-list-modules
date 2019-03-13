@@ -27,7 +27,7 @@ public class LoggingAspect {
     private void forAppFlow() {
     }
 
-    @Before("forAppFlow()")
+//    @Before("forAppFlow()")
     public void beforeAdvice(JoinPoint joinPoint) {
         String methodName = joinPoint.getSignature().toShortString();
         logger.info("before calling method: " + methodName);
@@ -37,7 +37,7 @@ public class LoggingAspect {
         }
     }
 
-    @AfterReturning(pointcut = "forAppFlow()", returning = "result")
+//    @AfterReturning(pointcut = "forAppFlow()", returning = "result")
     public void afterReturningAdvice(JoinPoint joinPoint, Object result) {
         String methodName = joinPoint.getSignature().toShortString();
         logger.info("after returning from method: " + methodName);
