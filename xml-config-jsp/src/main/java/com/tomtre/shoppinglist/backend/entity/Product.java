@@ -1,6 +1,7 @@
 package com.tomtre.shoppinglist.backend.entity;
 
 import javax.persistence.*;
+import java.security.AlgorithmConstraints;
 
 @Entity
 @Table(name = "products")
@@ -20,15 +21,19 @@ public class Product extends BaseUuidEntity {
     @Column(nullable = false)
     private boolean checked;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     public Product() {
     }
 
-    public Product(String title, String description, String quantity, String unit, boolean checked) {
-        this.title = title;
-        this.description = description;
-        this.quantity = quantity;
-        this.unit = unit;
-        this.checked = checked;
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getTitle() {
@@ -79,6 +84,6 @@ public class Product extends BaseUuidEntity {
                 ", quantity='" + quantity + '\'' +
                 ", unit='" + unit + '\'' +
                 ", checked=" + checked +
-                "} " + super.toString();
+                '}';
     }
 }

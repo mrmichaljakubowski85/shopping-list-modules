@@ -11,15 +11,15 @@ public interface ProductService {
 
     List<Product> getProductsByUserId(long userId);
 
-    Product getProduct(UUID productId) throws ProductNotFoundException;
+    Product getProduct(UUID productId, long userId) throws ProductNotFoundException;
 
     void updateProduct(Product product);
 
     void addProduct(Product product) throws ProductExistsException;
 
-    void deleteProduct(UUID productId);
+    void deleteProduct(UUID productId, long userId);
 
-    void checkProduct(UUID productId);
+    void checkProduct(UUID productId, long userId);
 
-    void uncheckProduct(UUID productId);
+    void uncheckProduct(UUID productId, long userId);
 }

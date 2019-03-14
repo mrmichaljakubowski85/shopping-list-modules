@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    public static final Logger logger = Logger.getLogger(CustomAuthenticationSuccessHandler.class.getName());
+    private static final Logger logger = Logger.getLogger(CustomAuthenticationSuccessHandler.class.getName());
 
     private final UserService userService;
 
@@ -27,21 +27,18 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-
-        logger.info("User logged in: authentication: " + authentication);
-
+//        logger.info("User logged in: authentication: " + authentication);
         String userName = authentication.getName();
-
         Optional<User> userOptional = userService.findByUserName(userName);
-
-        //todo do we need user??
 
         //store in the httpSession
         HttpSession httpSession = request.getSession(false);
         if (httpSession != null && userOptional.isPresent()) {
-            httpSession.setAttribute("user", userOptional.get());
+            User user = userOptional.get();
+            httpSession.setAttribute("userName", user.getUserName());
+            httpSession.setAttribute("name", user.getFirstName() + " " + user.getLastName());
+            httpSession.setAttribute("userId", user.getId());
         }
-
 
         //forward to home page
         response.sendRedirect(request.getContextPath() + "/");

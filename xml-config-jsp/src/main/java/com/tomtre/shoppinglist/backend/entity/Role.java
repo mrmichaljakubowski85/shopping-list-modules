@@ -29,6 +29,6 @@ public class Role extends BaseIdEntity {
     public String toString() {
         return "Role{" +
                 "name='" + name + '\'' +
-                "} " + super.toString();
+                '}';
     }
 }

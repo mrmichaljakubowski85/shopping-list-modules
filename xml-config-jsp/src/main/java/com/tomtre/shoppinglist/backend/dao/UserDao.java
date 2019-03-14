@@ -13,4 +13,6 @@ public interface UserDao {
     Optional<User> findByUserName(String userName);
 
     void save(User user);
+
+    Optional<User> findWithRolesByUserName(String userName);
 }

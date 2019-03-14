@@ -2,3 +2,12 @@ localhost
 database: postgres
 5432
 username: postgres
+
+psql -h localhost -d postgres -p 5432 -U postgres -a -f ddt.sql
+
+OR
+if logged in to psql:
+- for absolute path
+\i ddt.sql
+- for relative path
+\ir ddt.sql

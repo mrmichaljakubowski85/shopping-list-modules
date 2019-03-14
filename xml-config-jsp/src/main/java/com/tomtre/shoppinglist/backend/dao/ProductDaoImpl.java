@@ -27,22 +27,27 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public List<Product> getProductsByUserId(long userId) {
         Session session = sessionFactory.getCurrentSession();
-        Query<Product> query = session.createQuery("from Product p where ", Product.class);
+        Query<Product> query = session.createQuery("FROM Product p WHERE p.user.id = :userId", Product.class);
+        query.setParameter("userId", userId);
         return query.getResultList();
     }
 
     @Override
-    public Optional<Product> getProduct(UUID productId) {
+    public Optional<Product> getProduct(UUID productId, long userId) {
         Session session = sessionFactory.getCurrentSession();
         Product product = session.get(Product.class, productId);
+        Query<Product> query = session.createQuery("FROM Product p WHERE p.id = :productId AND p.user.id = :userId", Product.class);
+        query.setParameter("productId", productId);
+        query.setParameter("userId", userId);
         return Optional.ofNullable(product);
     }
 
     @Override
-    public void removeProduct(UUID productId) {
+    public void removeProduct(UUID productId, long userId) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("delete from Product p where p.id = :productId");
+        Query query = session.createQuery("DELETE FROM Product p WHERE p.id = :productId AND p.user.id = :userId");
         query.setParameter("productId", productId);
+        query.setParameter("userId", userId);
         query.executeUpdate();
     }
 
@@ -59,18 +64,21 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public void checkProduct(UUID productId) {
+    public void checkProduct(UUID productId, long userId) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("update Product p set p.checked = true where p.id = :productId");
+        Query query = session.createQuery("UPDATE Product p SET p.checked = true WHERE p.id = :productId AND p.user.id = :userId");
         query.setParameter("productId", productId);
+        query.setParameter("userId", userId);
         query.executeUpdate();
     }
 
     @Override
-    public void uncheckProduct(UUID productId) {
+    public void uncheckProduct(UUID productId, long userId) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("update Product p set p.checked = false where p.id = :productId");
+        Query query = session.createQuery("UPDATE Product p SET p.checked = false WHERE p.id = :productId AND p.user.id = :userId");
         query.setParameter("productId", productId);
+        query.setParameter("userId", userId);
+
         query.executeUpdate();
     }
 

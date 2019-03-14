@@ -9,9 +9,13 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.util.logging.Logger;
+
 
 @ControllerAdvice(basePackages = "com.tomtre.shoppinglist.backend.controller")
 public class ProductExceptionHandler {
+
+    public static final Logger logger = Logger.getLogger(ProductExceptionHandler.class.getName());
 
     @ExceptionHandler(ProductExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
@@ -35,7 +39,8 @@ public class ProductExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public String handleException() {
+    public String handleException(Exception e) {
+        logger.warning("Exception occurred: " + e.toString());
         return "error/global-error";
     }
 }

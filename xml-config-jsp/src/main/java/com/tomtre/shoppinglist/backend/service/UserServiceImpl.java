@@ -51,6 +51,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<User> findWithRolesByUserName(String userName) {
+        return userDao.findWithRolesByUserName(userName);
+    }
+
+    @Override
     public void save(RegisterUserDto registerUserDto) {
         User user = convertRegisterUserDtoToUser(registerUserDto);
         userDao.save(user);
@@ -64,7 +69,7 @@ public class UserServiceImpl implements UserService {
         user.setLastName(registerUserDto.getLastName());
         user.setEmail(registerUserDto.getEmail());
 
-        Role userRole = roleDao.findRoleByName(SecurityRoles.USER);
+        Role userRole = roleDao.findRoleByName(SecurityRoles.DB_ROLE_USER);
         user.setRoles(Collections.singletonList(userRole));
 
         return user;

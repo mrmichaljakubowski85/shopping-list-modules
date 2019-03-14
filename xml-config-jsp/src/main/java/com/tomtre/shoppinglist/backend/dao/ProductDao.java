@@ -11,17 +11,17 @@ public interface ProductDao {
 
     List<Product> getProductsByUserId(long userId);
 
-    Optional<Product> getProduct(UUID productId);
+    Optional<Product> getProduct(UUID productId, long userId);
 
-    void removeProduct(UUID productId);
+    void removeProduct(UUID productId, long userId);
 
     void saveProduct(Product product);
 
     void updateProduct(Product product);
 
-    void checkProduct(UUID productId);
+    void checkProduct(UUID productId, long userId);
 
-    void uncheckProduct(UUID productId);
+    void uncheckProduct(UUID productId, long userId);
 
     boolean checkIfProductExists(UUID productId);
 }

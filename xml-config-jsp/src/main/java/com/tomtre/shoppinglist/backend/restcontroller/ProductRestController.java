@@ -24,29 +24,34 @@ public class ProductRestController {
 
     @GetMapping("/products")
     public List<Product> getProducts() {
-        return productService.getProducts();
+        //todo change
+        return productService.getProductsByUserId(0);
     }
 
     @GetMapping("/products/{productId}")
     public Product getProduct(@PathVariable UUID productId) throws ProductNotFoundException {
-        return productService.getProduct(productId);
+        //todo change
+        return productService.getProduct(productId, 0);
     }
 
     @PostMapping("/products")
     public Product addProduct(@RequestBody Product product) throws ProductExistsException {
+        //todo product need User (id)
         productService.addProduct(product);
         return product;
     }
 
     @PutMapping("/products")
     public Product updateProduct(@RequestBody Product product) {
+        //todo product need User (id)
         productService.updateProduct(product);
         return product;
     }
 
     @DeleteMapping("/products/{productId}")
     //todo what to return?
+    //todo change paramter
     public void deleteProduct(@PathVariable UUID productId) {
-        productService.deleteProduct(productId);
+        productService.deleteProduct(productId, 0);
     }
 }

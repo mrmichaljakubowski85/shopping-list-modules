@@ -29,8 +29,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product getProduct(UUID productId) throws ProductNotFoundException {
-        Optional<Product> productOptional = productDAO.getProduct(productId);
+    public Product getProduct(UUID productId, long userId) throws ProductNotFoundException {
+        Optional<Product> productOptional = productDAO.getProduct(productId, userId);
         if (productOptional.isPresent()) {
             return productOptional.get();
         } else {
@@ -61,18 +61,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteProduct(UUID productId) {
-        productDAO.removeProduct(productId);
+    public void deleteProduct(UUID productId, long userId) {
+        productDAO.removeProduct(productId, userId);
     }
 
     @Override
-    public void checkProduct(UUID productId) {
-        productDAO.checkProduct(productId);
+    public void checkProduct(UUID productId, long userId) {
+        productDAO.checkProduct(productId, userId);
     }
 
     @Override
-    public void uncheckProduct(UUID productId) {
-        productDAO.uncheckProduct(productId);
+    public void uncheckProduct(UUID productId, long userId) {
+        productDAO.uncheckProduct(productId, userId);
     }
 
 }
