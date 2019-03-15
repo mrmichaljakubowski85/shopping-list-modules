@@ -3,6 +3,7 @@ package com.tomtre.shoppinglist.backend.service;
 import com.tomtre.shoppinglist.backend.config.SecurityRoles;
 import com.tomtre.shoppinglist.backend.dao.RoleDao;
 import com.tomtre.shoppinglist.backend.dao.UserDao;
+import com.tomtre.shoppinglist.backend.dto.CustomSecurityUser;
 import com.tomtre.shoppinglist.backend.dto.RegisterUserDto;
 import com.tomtre.shoppinglist.backend.entity.Role;
 import com.tomtre.shoppinglist.backend.entity.User;
@@ -80,14 +81,17 @@ public class UserServiceImpl implements UserService {
         Optional<User> userOptional = userDao.findWithRolesByUserName(userName);
         if (!userOptional.isPresent())
             throw new UsernameNotFoundException("Invalid username");
-        return convertUserToSpringUser(userOptional.get());
+        return convertUserToCustomSecurityUser(userOptional.get());
     }
 
-    private UserDetails convertUserToSpringUser(User user) {
-        String userName = user.getUserName();
-        String password = user.getPassword();
-        Collection<? extends GrantedAuthority> grantedAuthorities = mapRolesToAuthorities(user.getRoles());
-        return new org.springframework.security.core.userdetails.User(userName, password, grantedAuthorities);
+    private CustomSecurityUser convertUserToCustomSecurityUser(User user) {
+        return new CustomSecurityUser.Builder()
+                .setUsername(user.getUserName())
+                .setId(user.getId())
+                .setPassword(user.getPassword())
+                .setFullName(user.getFirstName() + user.getLastName())
+                .setAuthorities(mapRolesToAuthorities(user.getRoles()))
+                .build();
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {

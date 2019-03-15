@@ -1,6 +1,7 @@
 package com.tomtre.shoppinglist.backend.restcontroller;
 
 import com.tomtre.shoppinglist.backend.config.RestServiceDescriptor;
+import com.tomtre.shoppinglist.backend.dto.CustomSecurityUser;
 import com.tomtre.shoppinglist.backend.entity.Product;
 import com.tomtre.shoppinglist.backend.exception.ProductExistsException;
 import com.tomtre.shoppinglist.backend.exception.ProductNotFoundException;
@@ -25,35 +26,34 @@ public class ProductRestController {
 
     @GetMapping("/products")
     public List<Product> getProducts(Principal principal) {
-        String userName = principal.getName();
-
-        return productService.findProductsOrderByCreateDateTime(0);
+        return productService.findProductsOrderByCreateDateTime(getUserId(principal));
     }
 
     @GetMapping("/products/{productId}")
-    public Product getProduct(@PathVariable UUID productId) throws ProductNotFoundException {
-        //todo change
-        return productService.getProduct(productId, 0);
+    public Product getProduct(Principal principal, @PathVariable UUID productId) throws ProductNotFoundException {
+        return productService.getProduct(productId,getUserId(principal));
     }
 
     @PostMapping("/products")
-    public Product addProduct(@RequestBody Product product) throws ProductExistsException {
-        //todo product need User (id)
-        productService.addProduct(product, getUserIdFromPrincipal(principal));
+    public Product addProduct(Principal principal, @RequestBody Product product) throws ProductExistsException {
+        productService.addProduct(product, getUserId(principal));
         return product;
     }
 
     @PutMapping("/products")
-    public Product updateProduct(@RequestBody Product product) {
-        //todo product need User (id)
-        productService.updateProduct(product, getUserIdFromPrincipal(principal));
+    public Product updateProduct(Principal principal, @RequestBody Product product) {
+        productService.updateProduct(product, getUserId(principal));
         return product;
     }
 
     @DeleteMapping("/products/{productId}")
     //todo what to return?
-    //todo change paramter
-    public void deleteProduct(@PathVariable UUID productId) {
-        productService.deleteProduct(productId, 0);
+    public void deleteProduct(Principal principal, @PathVariable UUID productId) {
+        productService.deleteProduct(productId, getUserId(principal));
     }
+
+    private long getUserId(Principal principal) {
+        return ((CustomSecurityUser) principal).getId();
+    }
+
 }

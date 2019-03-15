@@ -1,7 +1,7 @@
 package com.tomtre.shoppinglist.backend.controller;
 
+import com.tomtre.shoppinglist.backend.dto.CustomSecurityUser;
 import com.tomtre.shoppinglist.backend.entity.Product;
-import com.tomtre.shoppinglist.backend.entity.User;
 import com.tomtre.shoppinglist.backend.exception.BadRequestException;
 import com.tomtre.shoppinglist.backend.exception.ProductExistsException;
 import com.tomtre.shoppinglist.backend.exception.ProductNotFoundException;
@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
@@ -30,7 +29,7 @@ public class ProductController {
 
     @GetMapping("/list")
     public String listProducts(Principal principal, Model model) {
-        List<Product> products = productService.findProductsOrderByCreateDateTime(getUserIdFromPrincipal(principal));
+        List<Product> products = productService.findProductsOrderByCreateDateTime(getUserId(principal));
         model.addAttribute("products", products);
         return "product-list";
     }
@@ -45,7 +44,7 @@ public class ProductController {
     @GetMapping("/edit")
     public String editProduct(Principal principal, @RequestParam("productId") UUID productId, Model model)
             throws ProductNotFoundException {
-        Product product = productService.getProduct(productId, getUserIdFromPrincipal(principal));
+        Product product = productService.getProduct(productId, getUserId(principal));
         model.addAttribute("product", product);
         return "add-edit-product-form";
     }
@@ -56,22 +55,22 @@ public class ProductController {
             return "add-edit-product-form";
         }
         if (product.getId() == null) {
-            productService.addProduct(product, getUserIdFromPrincipal(principal));
+            productService.addProduct(product, getUserId(principal));
         } else {
-            productService.updateProduct(product, getUserIdFromPrincipal(principal));
+            productService.updateProduct(product, getUserId(principal));
         }
         return "redirect:/product/list";
     }
 
     @GetMapping("/delete")
     public String deleteProduct(Principal principal, @RequestParam("productId") UUID productId) {
-        productService.deleteProduct(productId, getUserIdFromPrincipal(principal));
+        productService.deleteProduct(productId, getUserId(principal));
         return "redirect:/product/list";
     }
 
     @GetMapping("/details")
     public String productDetails(Principal principal, @RequestParam("productId") UUID productId, Model model) throws ProductNotFoundException {
-        Product product = productService.getProduct(productId, getUserIdFromPrincipal(principal));
+        Product product = productService.getProduct(productId, getUserId(principal));
         model.addAttribute("product", product);
         return "product-details";
     }
@@ -80,10 +79,10 @@ public class ProductController {
     public String checkProduct(Principal principal, HttpSession httpSession, @RequestParam("productId") UUID productId, @RequestParam("action") String actionType) throws BadRequestException {
         switch (actionType) {
             case "check":
-                productService.checkProduct(productId, getUserIdFromPrincipal(principal));
+                productService.checkProduct(productId, getUserId(principal));
                 break;
             case "uncheck":
-                productService.uncheckProduct(productId, getUserIdFromPrincipal(principal));
+                productService.uncheckProduct(productId, getUserId(principal));
                 break;
             default:
                 throw new BadRequestException();
@@ -91,8 +90,7 @@ public class ProductController {
         return "redirect:/product/list";
     }
 
-    private long getUserIdFromPrincipal(Principal principal) {
-
-        return
+    private long getUserId(Principal principal) {
+        return ((CustomSecurityUser) principal).getId();
     }
 }
