@@ -8,10 +8,12 @@ import com.tomtre.shoppinglist.backend.exception.ProductNotFoundException;
 import com.tomtre.shoppinglist.backend.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
@@ -41,15 +43,19 @@ public class ProductController {
     }
 
     @GetMapping("/edit")
-    public String editProduct(Principal principal, @RequestParam("productId") UUID productId, Model model) throws ProductNotFoundException {
+    public String editProduct(Principal principal, @RequestParam("productId") UUID productId, Model model)
+            throws ProductNotFoundException {
         Product product = productService.getProduct(productId, getUserIdFromPrincipal(principal));
         model.addAttribute("product", product);
         return "add-edit-product-form";
     }
 
     @PostMapping("/save")
-    public String saveProduct(Principal principal, @ModelAttribute("product") Product product) throws ProductExistsException {
-         if (product.getId() == null) {
+    public String saveProduct(Principal principal, @ModelAttribute("product") @Valid Product product, BindingResult bindingResult) throws ProductExistsException {
+        if (bindingResult.hasErrors()) {
+            return "add-edit-product-form";
+        }
+        if (product.getId() == null) {
             productService.addProduct(product, getUserIdFromPrincipal(principal));
         } else {
             productService.updateProduct(product, getUserIdFromPrincipal(principal));

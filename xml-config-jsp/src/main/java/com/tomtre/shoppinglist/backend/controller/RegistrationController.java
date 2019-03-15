@@ -47,8 +47,9 @@ public class RegistrationController {
 //        logger.info("Processing registration form for: " + userName);
 
         //validation
-        if (bindingResult.hasErrors())
+        if (bindingResult.hasErrors()) {
             return "registration-form";
+        }
 
         boolean userNameExists = userService.checkIfUserNameExists(userName);
         if (userNameExists) {
