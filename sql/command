@@ -3,7 +3,7 @@ database: postgres
 5432
 username: postgres
 
-psql -h localhost -d postgres -p 5432 -U postgres -a -f ddt.sql
+psql -h localhost -d postgres -p 5432 -U postgres -a -f script.sql
 
 OR
 if logged in to psql:
@@ -11,3 +11,5 @@ if logged in to psql:
 \i ddt.sql
 - for relative path
 \ir ddt.sql
+
+psql -h localhost -d shopping_list -p 5432 -U sl_user -a -f script.sql

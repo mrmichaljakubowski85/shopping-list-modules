@@ -10,7 +10,7 @@ public abstract class BaseIdEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQUENCE_GENERATOR_NAME)
-    @Column(name = ID_COLUMN_NAME)
+    @Column(name = ID_COLUMN_NAME, updatable = false)
     private long id;
 
     public long getId() {

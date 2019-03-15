@@ -6,7 +6,7 @@ import java.util.List;
 @Entity
 @SequenceGenerator(name = BaseIdEntity.SEQUENCE_GENERATOR_NAME, sequenceName = "user_seq")
 @Table(name = "users")
-public class User extends BaseIdEntity {
+public class User extends TimestampIdEntity {
 
     public static final String USER_NAME_COLUMN_NAME = "userName";
     public static final String EMAIL_COLUMN_NAME = "email";
@@ -17,6 +17,7 @@ public class User extends BaseIdEntity {
     @Column(nullable = false)
     private String password;
 
+    @Column
     private String firstName;
 
     @Column(nullable = false)

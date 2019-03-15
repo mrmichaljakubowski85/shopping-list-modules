@@ -25,21 +25,20 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public List<Product> getProductsByUserId(long userId) {
+    public List<Product> findProductsOrderByCreateDateTime(long userId) {
         Session session = sessionFactory.getCurrentSession();
-        Query<Product> query = session.createQuery("FROM Product p WHERE p.user.id = :userId", Product.class);
+        Query<Product> query = session.createQuery("FROM Product p WHERE p.user.id = :userId ORDER BY p.createDateTime", Product.class);
         query.setParameter("userId", userId);
         return query.getResultList();
     }
 
     @Override
-    public Optional<Product> getProduct(UUID productId, long userId) {
+    public Optional<Product> findProduct(UUID productId, long userId) {
         Session session = sessionFactory.getCurrentSession();
-        Product product = session.get(Product.class, productId);
         Query<Product> query = session.createQuery("FROM Product p WHERE p.id = :productId AND p.user.id = :userId", Product.class);
         query.setParameter("productId", productId);
         query.setParameter("userId", userId);
-        return Optional.ofNullable(product);
+        return query.uniqueResultOptional();
     }
 
     @Override
@@ -60,7 +59,14 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public void updateProduct(Product product) {
         Session session = sessionFactory.getCurrentSession();
-        session.update(product);
+        //todo We have to get the Product from db first, otherwise @CreationTimestamp won't work (will be set as null). Check more optimized solutions!
+        Product persistedProduct = session.get(Product.class, product.getId());
+        persistedProduct.setChecked(product.isChecked());
+        persistedProduct.setDescription(product.getDescription());
+        persistedProduct.setQuantity(product.getQuantity());
+        persistedProduct.setUnit(product.getUnit());
+        persistedProduct.setTitle(product.getTitle());
+        session.update(persistedProduct);
     }
 
     @Override

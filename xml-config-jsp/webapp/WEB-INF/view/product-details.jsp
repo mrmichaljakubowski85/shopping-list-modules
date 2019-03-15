@@ -13,6 +13,8 @@
 </head>
 <body>
 <div id="wrapper">
+        <jsp:include page="common/logged-in-user-info.jsp" />
+        <hr>
     <div id="header">
         <h3>Product details</h3>
     </div>

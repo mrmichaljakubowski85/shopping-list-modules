@@ -9,9 +9,9 @@ import java.util.UUID;
 
 public interface ProductDao {
 
-    List<Product> getProductsByUserId(long userId);
+    List<Product> findProductsOrderByCreateDateTime(long userId);
 
-    Optional<Product> getProduct(UUID productId, long userId);
+    Optional<Product> findProduct(UUID productId, long userId);
 
     void removeProduct(UUID productId, long userId);
 

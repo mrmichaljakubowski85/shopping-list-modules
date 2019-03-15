@@ -18,11 +18,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
+
+    private static final Logger logger = Logger.getLogger(UserServiceImpl.class.getName());
 
     private final UserDao userDao;
     private final RoleDao roleDao;
@@ -51,11 +54,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findWithRolesByUserName(String userName) {
-        return userDao.findWithRolesByUserName(userName);
-    }
-
-    @Override
     public void save(RegisterUserDto registerUserDto) {
         User user = convertRegisterUserDtoToUser(registerUserDto);
         userDao.save(user);
@@ -78,7 +76,8 @@ public class UserServiceImpl implements UserService {
     //from UserDetailsService
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        Optional<User> userOptional = userDao.findByUserName(userName);
+        logger.info(">>> loadUserByUsername, before findWithRolesByUserName");
+        Optional<User> userOptional = userDao.findWithRolesByUserName(userName);
         if (!userOptional.isPresent())
             throw new UsernameNotFoundException("Invalid username");
         return convertUserToSpringUser(userOptional.get());

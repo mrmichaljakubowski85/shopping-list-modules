@@ -1,9 +1,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>List of Products</title>
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css"/>
+    <script>
+        function checkProduct(e, link) {
+            window.location.href="check?action=${actionType}&productId=${productId}"
+        }
+    </script>
 </head>
 <body>
 <div id="wrapper">
@@ -13,6 +19,9 @@
 </div>
 <div id="container">
     <div id="content">
+
+        <jsp:include page="common/logged-in-user-info.jsp" />
+        <hr>
 
         <input type="button" value="Add Product" onclick="window.location.href='add'; return false;"
                class="add-button"/>
@@ -42,17 +51,14 @@
                     <th>${product.description}</th>
                     <th>${product.quantity}</th>
                     <th>${product.unit}</th>
-                    <th>
-                            ${product.checked}
-                            |
-                             <a href="${checkProductLink}">Check/Uncheck</a>
-                    </th>
 
-                    <td>
+                    <th><input type="checkbox" onclick="window.location.href='${checkProductLink}';" ${product.checked ? 'checked' : ''}/></th>
+
+                    <th>
                         <a href="${productDetailsLink}">Details</a>
                         |
                         <a href="${deleteProductLink}">Remove</a>
-                    </td>
+                    </th>
                 </tr>
             </c:forEach>
         </table>

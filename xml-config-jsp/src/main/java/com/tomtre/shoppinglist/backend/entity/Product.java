@@ -1,21 +1,26 @@
 package com.tomtre.shoppinglist.backend.entity;
 
 import javax.persistence.*;
-import java.security.AlgorithmConstraints;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "products")
-//todo add validation for fields length
-public class Product extends BaseUuidEntity {
+public class Product extends TimestampUuidEntity {
 
+    @Size(max = 255, message= "max 255 characters")
     @Column(nullable = false)
     private String title;
 
+    @Size(max = 1000, message= "max 1000 characters")
     @Column(length = 1000)
     private String description;
 
+    @Size(max = 255, message= "max 255 characters")
+    @Column
     private String quantity;
 
+    @Size(max = 255, message= "max 255 characters")
+    @Column
     private String unit;
 
     @Column(nullable = false)

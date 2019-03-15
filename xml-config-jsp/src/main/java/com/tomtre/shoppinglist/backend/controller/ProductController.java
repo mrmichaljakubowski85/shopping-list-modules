@@ -6,12 +6,11 @@ import com.tomtre.shoppinglist.backend.exception.BadRequestException;
 import com.tomtre.shoppinglist.backend.exception.ProductExistsException;
 import com.tomtre.shoppinglist.backend.exception.ProductNotFoundException;
 import com.tomtre.shoppinglist.backend.service.ProductService;
-import com.tomtre.shoppinglist.backend.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.List;
@@ -28,8 +27,8 @@ public class ProductController {
     }
 
     @GetMapping("/list")
-    public String listProducts(HttpSession httpSession, Model model) {
-        List<Product> products = productService.getProductsByUserId(getUserIdFromSession(httpSession));
+    public String listProducts(Principal principal, Model model) {
+        List<Product> products = productService.findProductsOrderByCreateDateTime(getUserIdFromPrincipal(principal));
         model.addAttribute("products", products);
         return "product-list";
     }
@@ -42,50 +41,43 @@ public class ProductController {
     }
 
     @GetMapping("/edit")
-    public String editProduct(HttpSession httpSession, @RequestParam("productId") UUID productId, Model model) throws ProductNotFoundException {
-        Product product = productService.getProduct(productId, getUserIdFromSession(httpSession));
+    public String editProduct(Principal principal, @RequestParam("productId") UUID productId, Model model) throws ProductNotFoundException {
+        Product product = productService.getProduct(productId, getUserIdFromPrincipal(principal));
         model.addAttribute("product", product);
         return "add-edit-product-form";
     }
 
     @PostMapping("/save")
-    public String saveProduct(HttpSession httpSession, @ModelAttribute("product") Product product) throws ProductExistsException {
-        User tempUser = new User();
-        tempUser.setId(getUserIdFromSession(httpSession));
-        product.setUser(tempUser);
-        if (product.getId() == null) {
-            productService.addProduct(product);
+    public String saveProduct(Principal principal, @ModelAttribute("product") Product product) throws ProductExistsException {
+         if (product.getId() == null) {
+            productService.addProduct(product, getUserIdFromPrincipal(principal));
         } else {
-            productService.updateProduct(product);
+            productService.updateProduct(product, getUserIdFromPrincipal(principal));
         }
         return "redirect:/product/list";
     }
 
     @GetMapping("/delete")
-    public String deleteProduct(HttpSession httpSession, @RequestParam("productId") UUID productId) {
-        productService.deleteProduct(productId, getUserIdFromSession(httpSession));
+    public String deleteProduct(Principal principal, @RequestParam("productId") UUID productId) {
+        productService.deleteProduct(productId, getUserIdFromPrincipal(principal));
         return "redirect:/product/list";
     }
 
-    private long getUserIdFromSession(HttpSession httpSession) {
-        return (long) httpSession.getAttribute("userId");
-    }
-
     @GetMapping("/details")
-    public String productDetails(HttpSession httpSession, @RequestParam("productId") UUID productId, Model model) throws ProductNotFoundException {
-        Product product = productService.getProduct(productId, getUserIdFromSession(httpSession));
+    public String productDetails(Principal principal, @RequestParam("productId") UUID productId, Model model) throws ProductNotFoundException {
+        Product product = productService.getProduct(productId, getUserIdFromPrincipal(principal));
         model.addAttribute("product", product);
         return "product-details";
     }
 
     @GetMapping("/check")
-    public String checkProduct(HttpSession httpSession, @RequestParam("productId") UUID productId, @RequestParam("action") String actionType) throws BadRequestException {
+    public String checkProduct(Principal principal, HttpSession httpSession, @RequestParam("productId") UUID productId, @RequestParam("action") String actionType) throws BadRequestException {
         switch (actionType) {
             case "check":
-                productService.checkProduct(productId, getUserIdFromSession(httpSession));
+                productService.checkProduct(productId, getUserIdFromPrincipal(principal));
                 break;
             case "uncheck":
-                productService.uncheckProduct(productId, getUserIdFromSession(httpSession));
+                productService.uncheckProduct(productId, getUserIdFromPrincipal(principal));
                 break;
             default:
                 throw new BadRequestException();
@@ -93,4 +85,8 @@ public class ProductController {
         return "redirect:/product/list";
     }
 
+    private long getUserIdFromPrincipal(Principal principal) {
+
+        return
+    }
 }

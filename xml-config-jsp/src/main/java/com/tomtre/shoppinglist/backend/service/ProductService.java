@@ -9,13 +9,13 @@ import java.util.UUID;
 
 public interface ProductService {
 
-    List<Product> getProductsByUserId(long userId);
+    List<Product> findProductsOrderByCreateDateTime(long userId);
 
     Product getProduct(UUID productId, long userId) throws ProductNotFoundException;
 
-    void updateProduct(Product product);
+    void updateProduct(Product product, long userId);
 
-    void addProduct(Product product) throws ProductExistsException;
+    void addProduct(Product product, long userId) throws ProductExistsException;
 
     void deleteProduct(UUID productId, long userId);
 

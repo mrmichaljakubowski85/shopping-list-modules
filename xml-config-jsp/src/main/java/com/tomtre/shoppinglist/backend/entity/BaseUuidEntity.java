@@ -12,7 +12,7 @@ public abstract class BaseUuidEntity {
 
     //we don't use @GeneratedValue because it is UUID and the Entity can come with already set value
     @Id
-    @Column(name = ID_COLUMN_NAME)
+    @Column(name = ID_COLUMN_NAME, updatable = false)
     private UUID id;
 
     public UUID getId() {

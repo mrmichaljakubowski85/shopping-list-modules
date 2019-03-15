@@ -16,6 +16,8 @@
 </head>
 <body>
 <div id="wrapper">
+        <jsp:include page="common/logged-in-user-info.jsp" />
+        <hr>
     <div id="header">
         <c:choose>
             <c:when test="${product.id == null}">

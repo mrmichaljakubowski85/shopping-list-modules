@@ -8,6 +8,7 @@ import com.tomtre.shoppinglist.backend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,9 +24,10 @@ public class ProductRestController {
     }
 
     @GetMapping("/products")
-    public List<Product> getProducts() {
-        //todo change
-        return productService.getProductsByUserId(0);
+    public List<Product> getProducts(Principal principal) {
+        String userName = principal.getName();
+
+        return productService.findProductsOrderByCreateDateTime(0);
     }
 
     @GetMapping("/products/{productId}")
@@ -37,14 +39,14 @@ public class ProductRestController {
     @PostMapping("/products")
     public Product addProduct(@RequestBody Product product) throws ProductExistsException {
         //todo product need User (id)
-        productService.addProduct(product);
+        productService.addProduct(product, getUserIdFromPrincipal(principal));
         return product;
     }
 
     @PutMapping("/products")
     public Product updateProduct(@RequestBody Product product) {
         //todo product need User (id)
-        productService.updateProduct(product);
+        productService.updateProduct(product, getUserIdFromPrincipal(principal));
         return product;
     }
 

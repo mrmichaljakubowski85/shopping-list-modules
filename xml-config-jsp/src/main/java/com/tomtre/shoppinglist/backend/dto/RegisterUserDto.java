@@ -3,7 +3,9 @@ package com.tomtre.shoppinglist.backend.dto;
 import com.tomtre.shoppinglist.backend.validation.FieldMatch;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @FieldMatch.List(
         @FieldMatch(first = "password", second = "matchingPassword", message = "The password fields must match")
@@ -11,21 +13,26 @@ import javax.validation.constraints.NotNull;
 public class RegisterUserDto {
 
     @NotNull(message = "is required")
+    @Size(max = 255, message= "max 255 characters")
     private String userName;
 
+    @Size(max = 50, message= "max 50 characters")
     @NotNull(message = "is required")
     private String password;
 
-    @NotNull(message = "is required")
+    @Size(max = 50, message= "max 50 characters")
     private String matchingPassword;
 
+    @Size(max = 255, message= "max 255 characters")
     @NotNull(message = "is required")
     private String firstName;
 
     @NotNull(message = "is required")
+    @Size(max = 255, message= "max 255 characters")
     private String lastName;
 
     @NotNull(message = "is required")
+    @Size(max = 255, message= "max 255 characters")
     @Email
     private String email;
 

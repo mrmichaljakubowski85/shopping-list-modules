@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Table(name = "roles")
 public class Role extends BaseIdEntity {
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     public Role() {}

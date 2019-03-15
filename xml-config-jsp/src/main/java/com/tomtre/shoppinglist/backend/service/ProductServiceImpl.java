@@ -2,6 +2,7 @@ package com.tomtre.shoppinglist.backend.service;
 
 import com.tomtre.shoppinglist.backend.dao.ProductDao;
 import com.tomtre.shoppinglist.backend.entity.Product;
+import com.tomtre.shoppinglist.backend.entity.User;
 import com.tomtre.shoppinglist.backend.exception.ProductExistsException;
 import com.tomtre.shoppinglist.backend.exception.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +24,15 @@ public class ProductServiceImpl implements ProductService {
         this.productDAO = productDAO;
     }
 
+
     @Override
-    public List<Product> getProductsByUserId(long userId) {
-        return productDAO.getProductsByUserId(userId);
+    public List<Product> findProductsOrderByCreateDateTime(long userId) {
+        return productDAO.findProductsOrderByCreateDateTime(userId);
     }
 
     @Override
     public Product getProduct(UUID productId, long userId) throws ProductNotFoundException {
-        Optional<Product> productOptional = productDAO.getProduct(productId, userId);
+        Optional<Product> productOptional = productDAO.findProduct(productId, userId);
         if (productOptional.isPresent()) {
             return productOptional.get();
         } else {
@@ -39,12 +41,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void updateProduct(Product product) {
+    public void updateProduct(Product product, long userId) {
+        setUserRelation(product, userId);
         productDAO.updateProduct(product);
     }
 
     @Override
-    public void addProduct(Product product) throws ProductExistsException {
+    public void addProduct(Product product, long userId) throws ProductExistsException {
+        setUserRelation(product, userId);
         UUID id = product.getId();
         if (id == null) {
             product.setId(UUID.randomUUID());
@@ -75,4 +79,9 @@ public class ProductServiceImpl implements ProductService {
         productDAO.uncheckProduct(productId, userId);
     }
 
+    private void setUserRelation(Product product, long userId) {
+        User user = new User();
+        user.setId(userId);
+        product.setUser(user);
+    }
 }
