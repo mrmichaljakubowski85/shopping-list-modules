@@ -1,4 +1,4 @@
-package com.tomtre.shoppinglist.backend.config;
+package com.tomtre.shoppinglist.backend.config.security;
 
 import com.tomtre.shoppinglist.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

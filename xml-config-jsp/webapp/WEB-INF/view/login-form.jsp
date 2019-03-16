@@ -89,8 +89,6 @@
 							</div>
 						</div>
 
-						<!-- I'm manually adding tokens ... Bro! -->
-
 
 					</form:form>
 

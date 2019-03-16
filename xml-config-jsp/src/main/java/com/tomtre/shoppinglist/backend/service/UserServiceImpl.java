@@ -1,6 +1,6 @@
 package com.tomtre.shoppinglist.backend.service;
 
-import com.tomtre.shoppinglist.backend.config.SecurityRoles;
+import com.tomtre.shoppinglist.backend.config.security.SecurityRoles;
 import com.tomtre.shoppinglist.backend.dao.RoleDao;
 import com.tomtre.shoppinglist.backend.dao.UserDao;
 import com.tomtre.shoppinglist.backend.dto.CustomSecurityUser;
@@ -77,7 +77,6 @@ public class UserServiceImpl implements UserService {
     //from UserDetailsService
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        logger.info(">>> loadUserByUsername, before findWithRolesByUserName");
         Optional<User> userOptional = userDao.findWithRolesByUserName(userName);
         if (!userOptional.isPresent())
             throw new UsernameNotFoundException("Invalid username");

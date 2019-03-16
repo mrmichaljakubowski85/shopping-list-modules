@@ -1,4 +1,4 @@
-package com.tomtre.shoppinglist.backend.config;
+package com.tomtre.shoppinglist.backend.config.security;
 
 import com.tomtre.shoppinglist.backend.entity.User;
 import com.tomtre.shoppinglist.backend.service.UserService;
@@ -16,24 +16,14 @@ import java.util.Optional;
 @Component
 public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-    private final UserService userService;
-
-    public CustomAuthenticationSuccessHandler(UserService userService) {
-        this.userService = userService;
-    }
+    public static final String PRINCIPAL_SESSION_ATTRIBUTE_NAME = "customSecurityUser";
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
 
-        String userName = authentication.getName();
-        logger.info(">>> onAuthenticationSuccess, before findByUserName");
-        Optional<User> userOptional = userService.findByUserName(userName);
-
-        //store in the httpSession
         HttpSession httpSession = request.getSession(false);
-        if (httpSession != null && userOptional.isPresent()) {
-            User user = userOptional.get();
-            httpSession.setAttribute("user", user);
+        if (httpSession != null) {
+            httpSession.setAttribute(PRINCIPAL_SESSION_ATTRIBUTE_NAME, authentication.getPrincipal());
         }
 
         super.onAuthenticationSuccess(request, response, authentication);

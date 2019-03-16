@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+    <div th:fragment="logged-in-user" class="mb-3">
+        <form action="#" th:action="@{/logout}" method="POST">
+            <div class="align-middle">Hello <strong th:text="${session.customSecurityUser.fullName}" /> !</div>
+            <button type="submit" class="btn btn-outline-secondary btn-sm">Logout</button>
+        </form>
+    </div>
+</body>
+</html>

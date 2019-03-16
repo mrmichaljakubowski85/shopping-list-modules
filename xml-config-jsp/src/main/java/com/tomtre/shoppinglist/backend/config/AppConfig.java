@@ -2,8 +2,12 @@ package com.tomtre.shoppinglist.backend.config;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.*;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -14,6 +18,11 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.spring5.view.ThymeleafViewResolver;
+import org.thymeleaf.templatemode.TemplateMode;
+import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
@@ -26,26 +35,66 @@ import java.util.logging.Logger;
 @EnableAspectJAutoProxy
 @ComponentScan("com.tomtre.shoppinglist.backend")
 @PropertySource("classpath:persistence.properties")
-public class AppConfig implements WebMvcConfigurer {
+public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
 
     private static final Logger logger = Logger.getLogger(AppConfig.class.getName());
 
     private final Environment env;
+    private ApplicationContext applicationContext;
 
     @Autowired
     public AppConfig(Environment env) {
         this.env = env;
     }
 
-    @Bean
-    public ViewResolver viewResolver() {
-        InternalResourceViewResolver internalResourceViewResolver = new InternalResourceViewResolver();
-
-        internalResourceViewResolver.setPrefix("/WEB-INF/view/");
-        internalResourceViewResolver.setSuffix(".jsp");
-
-        return internalResourceViewResolver;
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
+
+    @Bean
+    public ThymeleafViewResolver viewResolver(SpringTemplateEngine springTemplateEngine) {
+        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+        viewResolver.setTemplateEngine(springTemplateEngine);
+        viewResolver.setCharacterEncoding("UTF-8");
+        viewResolver.setOrder(1);
+        return viewResolver;
+    }
+
+    @Bean
+    public SpringTemplateEngine templateEngine(SpringResourceTemplateResolver templateResolver) {
+        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+        templateEngine.setEnableSpringELCompiler(true);
+        templateEngine.setTemplateResolver(templateResolver);
+//        templateEngine.setTemplateEngineMessageSource(messageSource());
+        return templateEngine;
+    }
+
+    @Bean
+    public SpringResourceTemplateResolver templateResolver() {
+        SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
+        templateResolver.setApplicationContext(applicationContext);
+        templateResolver.setPrefix("/WEB-INF/templates/");
+        templateResolver.setSuffix(".html");
+        templateResolver.setTemplateMode(TemplateMode.HTML);
+        return templateResolver;
+    }
+
+//    private ResourceBundleMessageSource messageSource() {
+//        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+//        messageSource.setBasename("messages");
+//        return messageSource;
+//    }
+
+//    @Bean
+//    public ViewResolver viewResolver() {
+//        InternalResourceViewResolver internalResourceViewResolver = new InternalResourceViewResolver();
+//
+//        internalResourceViewResolver.setPrefix("/WEB-INF/view/");
+//        internalResourceViewResolver.setSuffix(".jsp");
+//
+//        return internalResourceViewResolver;
+//    }
 
     @Bean
     public DataSource dataSource() {
@@ -108,13 +157,15 @@ public class AppConfig implements WebMvcConfigurer {
         return transactionManager;
     }
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-    }
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+//    }
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("index");
     }
+
+
 }

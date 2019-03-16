@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>List of Products</title>
+</head>
+<body>
+
+<div class="container">
+
+    <div th:replace="common/header :: logged-in-user"></div>
+
+    <h3>List of Products</h3>
+    <hr>
+
+    <a th:href="@{/employees/add}" class="btn btn-primary btn-sm mb-3">Add Product</a>
+
+
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Quantity</th>
+            <th>Unit</th>
+            <th>Checked</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="product : ${products}">
+
+            <td th:text="${product.title}" />
+            <td th:text="${product.description}" />
+            <td th:text="${product.quantity}" />
+            <td th:text="${product.unit}" />
+            <td>
+                <div>
+                    <input type="checkbox" th:checked="${product.checked}" />
+                </div>
+            </td>
+            <td>
+                <div class="row">
+                    <div class="col-small">
+                        <form action="#" th:action="@{/product/details}" method="POST">
+
+                            <input type="hidden" name="productId" th:value="${product.id}" />
+                            <button type="submit" class="btn btn-info btn-sm ml-3 mr-1">Details</button>
+
+                        </form>
+                    </div>
+                    <div class="col-small">
+                        <form action="#" th:action="@{/product/delete}" method="POST">
+
+                            <input type="hidden" name="productId" th:value="${product.id}" />
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+
+                        </form>
+                    </div>
+                </div>
+            </td>
+
+
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>

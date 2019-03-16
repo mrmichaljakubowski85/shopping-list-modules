@@ -56,15 +56,15 @@ public class UserDaoImpl implements UserDao {
         session.save(user);
     }
 
-
+    //todo check
     private boolean checkIfValueExists(Session session, String columnName, String value) {
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
-        Root<User> root = criteriaQuery.from(User.class);
-        criteriaQuery.select(root.get(User.ID_COLUMN_NAME));
+        CriteriaQuery criteriaQuery = criteriaBuilder.createQuery();
+        Root root = criteriaQuery.from(User.class);
+        criteriaQuery.select(root.get(columnName));
         criteriaQuery.where(criteriaBuilder.equal(root.get(columnName), value));
-        Query<Long> query = session.createQuery(criteriaQuery);
-        Long id = query.uniqueResult();
-        return id != null;
+        Query query = session.createQuery(criteriaQuery);
+        Object result = query.uniqueResult();
+        return result != null;
     }
 }
