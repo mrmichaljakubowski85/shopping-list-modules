@@ -21,20 +21,20 @@ public class ProductExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleProductExistsException(ProductExistsException e, Model model) {
         model.addAttribute("productId", e.getProductId().toString());
-        return "error/product-exists-error";
+        return "error/product-exists";
     }
 
     @ExceptionHandler(ProductNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleProductNotFoundException(ProductNotFoundException e, Model model) {
         model.addAttribute("productId", e.getProductId().toString());
-        return "error/product-not-found-error";
+        return "error/product-not-found";
     }
 
     @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleBadRequestException() {
-        return "error/bad-request-error";
+        return "error/bad-request";
     }
 
     @ExceptionHandler(Exception.class)
