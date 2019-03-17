@@ -23,9 +23,9 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean checkIfUserNameExists(String userName) {
+    public boolean checkIfUsernameExists(String username) {
         Session session = sessionFactory.getCurrentSession();
-        return checkIfValueExists(session, User.USER_NAME_COLUMN_NAME, userName);
+        return checkIfValueExists(session, User.USER_NAME_COLUMN_NAME, username);
     }
 
     @Override
@@ -35,18 +35,18 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<User> findByUserName(String userName) {
+    public Optional<User> findByUserName(String username) {
         Session session = sessionFactory.getCurrentSession();
-        Query<User> query = session.createQuery("FROM User u WHERE u.userName = :userName", User.class);
-        query.setParameter("userName", userName);
+        Query<User> query = session.createQuery("FROM User u WHERE u.username = :username", User.class);
+        query.setParameter("username", username);
         return query.uniqueResultOptional();
     }
 
     @Override
-    public Optional<User> findWithRolesByUserName(String userName) {
+    public Optional<User> findWithRolesByUserName(String username) {
         Session session = sessionFactory.getCurrentSession();
-        Query<User> query = session.createQuery("FROM User u JOIN FETCH u.roles r WHERE u.userName = :userName", User.class);
-        query.setParameter("userName", userName);
+        Query<User> query = session.createQuery("FROM User u JOIN FETCH u.roles r WHERE u.username = :username", User.class);
+        query.setParameter("username", username);
         return query.uniqueResultOptional();
     }
 

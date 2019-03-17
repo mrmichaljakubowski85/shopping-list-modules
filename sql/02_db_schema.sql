@@ -1,7 +1,7 @@
 CREATE TABLE products (
     id uuid NOT NULL,
-    createDateTime timestamp,
-    updateDateTime timestamp,
+    create_datetime timestamp,
+    update_datetime timestamp,
     checked boolean NOT NULL,
     description varchar(1000),
     quantity varchar(255),
@@ -19,13 +19,13 @@ CREATE TABLE roles (
 
 CREATE TABLE users (
     id bigint not null,
-    createDateTime timestamp,
-    updateDateTime timestamp,
+    create_datetime timestamp,
+    update_datetime timestamp,
     email varchar(255) NOT NULL,
-    firstName varchar(255),
-    lastName varchar(255) NOT NULL,
+    first_name varchar(255),
+    last_name varchar(255) NOT NULL,
     password varchar(255) NOT NULL,
-    userName varchar(255) NOT NULL,
+    username varchar(255) NOT NULL,
     primary key (id)
 );
 

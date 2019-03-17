@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface UserDao {
 
-    boolean checkIfUserNameExists(String userName);
+    boolean checkIfUsernameExists(String username);
 
     boolean checkIfEmailExists(String email);
 

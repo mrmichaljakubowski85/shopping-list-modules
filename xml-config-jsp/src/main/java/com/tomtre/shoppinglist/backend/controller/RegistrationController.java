@@ -1,7 +1,6 @@
 package com.tomtre.shoppinglist.backend.controller;
 
 import com.tomtre.shoppinglist.backend.dto.RegisterUserDto;
-import com.tomtre.shoppinglist.backend.entity.User;
 import com.tomtre.shoppinglist.backend.service.UserService;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -43,7 +42,7 @@ public class RegistrationController {
             BindingResult bindingResult,
             Model model) {
 
-        String userName = registerUserDto.getUserName();
+        String userName = registerUserDto.getUsername();
 //        logger.info("Processing registration form for: " + userName);
 
         //validation

@@ -80,21 +80,6 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         return templateResolver;
     }
 
-//    private ResourceBundleMessageSource messageSource() {
-//        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-//        messageSource.setBasename("messages");
-//        return messageSource;
-//    }
-
-//    @Bean
-//    public ViewResolver viewResolver() {
-//        InternalResourceViewResolver internalResourceViewResolver = new InternalResourceViewResolver();
-//
-//        internalResourceViewResolver.setPrefix("/WEB-INF/view/");
-//        internalResourceViewResolver.setSuffix(".jsp");
-//
-//        return internalResourceViewResolver;
-//    }
 
     @Bean
     public DataSource dataSource() {

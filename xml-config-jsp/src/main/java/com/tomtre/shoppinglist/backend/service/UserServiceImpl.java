@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkIfUserNameExists(String userName) {
-        return userDao.checkIfUserNameExists(userName);
+        return userDao.checkIfUsernameExists(userName);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
 
     private User convertRegisterUserDtoToUser(RegisterUserDto registerUserDto) {
         User user = new User();
-        user.setUserName(registerUserDto.getUserName());
+        user.setUsername(registerUserDto.getUsername());
         user.setPassword(passwordEncoder.encode(registerUserDto.getPassword()));
         user.setFirstName(registerUserDto.getFirstName());
         user.setLastName(registerUserDto.getLastName());
@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
 
     private CustomSecurityUser convertUserToCustomSecurityUser(User user) {
         return new CustomSecurityUser.Builder()
-                .setUsername(user.getUserName())
+                .setUsername(user.getUsername())
                 .setId(user.getId())
                 .setPassword(user.getPassword())
                 .setFullName(user.getFirstName() + user.getLastName())

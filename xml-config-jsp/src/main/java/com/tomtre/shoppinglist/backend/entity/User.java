@@ -8,19 +8,19 @@ import java.util.List;
 @Table(name = "users")
 public class User extends TimestampIdEntity {
 
-    public static final String USER_NAME_COLUMN_NAME = "userName";
+    public static final String USER_NAME_COLUMN_NAME = "username";
     public static final String EMAIL_COLUMN_NAME = "email";
 
     @Column(name = USER_NAME_COLUMN_NAME, nullable = false)
-    private String userName;
+    private String username;
 
     @Column(nullable = false)
     private String password;
 
-    @Column
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(nullable = false)
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
     @Column(name = EMAIL_COLUMN_NAME, nullable = false)
@@ -37,12 +37,12 @@ public class User extends TimestampIdEntity {
     public User() {
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -88,7 +88,7 @@ public class User extends TimestampIdEntity {
     @Override
     public String toString() {
         return "User{" +
-                "userName='" + userName + '\'' +
+                "username='" + username + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +

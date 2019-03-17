@@ -11,11 +11,11 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public abstract class TimestampIdEntity extends BaseIdEntity {
 
-    @Column
+    @Column(name = "create_datetime")
     @CreationTimestamp
     private LocalDateTime createDateTime;
 
-    @Column
+    @Column(name = "update_datetime")
     @UpdateTimestamp
     private LocalDateTime updateDateTime;
 

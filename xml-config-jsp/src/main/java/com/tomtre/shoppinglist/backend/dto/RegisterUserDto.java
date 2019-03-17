@@ -3,7 +3,6 @@ package com.tomtre.shoppinglist.backend.dto;
 import com.tomtre.shoppinglist.backend.validation.FieldMatch;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -14,7 +13,7 @@ public class RegisterUserDto {
 
     @NotNull(message = "is required")
     @Size(max = 255, message= "max 255 characters")
-    private String userName;
+    private String username;
 
     @Size(max = 50, message= "max 50 characters")
     @NotNull(message = "is required")
@@ -40,12 +39,12 @@ public class RegisterUserDto {
 
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
