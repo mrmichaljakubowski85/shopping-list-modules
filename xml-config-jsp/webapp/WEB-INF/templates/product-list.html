@@ -13,7 +13,7 @@
 
 <div class="container">
 
-    <div th:replace="common/header :: logged-in-user"></div>
+    <div th:replace="common/header :: logged-in-user-info"></div>
     <div class="page-header">
         <h3>List of Products</h3>
     </div>
@@ -36,10 +36,10 @@
         <tbody>
         <tr th:each="product : ${products}">
 
-            <td th:text="${product.title}"/>
-            <td th:text="${product.description}"/>
-            <td th:text="${product.quantity}"/>
-            <td th:text="${product.unit}"/>
+            <td th:text="*{title}"/>
+            <td th:text="*{description}"/>
+            <td th:text="*{quantity}"/>
+            <td th:text="*{unit}"/>
             <td>
                 <div>
                     <input type="checkbox" th:checked="${product.checked}"/>
@@ -50,7 +50,7 @@
                     <div class="col-md">
                         <form action="#" th:action="@{/product/details}" method="POST">
 
-                            <input type="hidden" name="productId" th:value="${product.id}"/>
+                            <input type="hidden" name="productId" th:value="*{id}"/>
                             <button type="submit" class="btn btn-info btn-sm">Details</button>
 
                         </form>

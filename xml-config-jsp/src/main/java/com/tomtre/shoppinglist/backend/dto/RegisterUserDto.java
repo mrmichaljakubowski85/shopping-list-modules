@@ -22,8 +22,6 @@ public class RegisterUserDto {
     @Size(max = 50, message= "max 50 characters")
     private String matchingPassword;
 
-    @Size(max = 255, message= "max 255 characters")
-    @NotNull(message = "is required")
     private String firstName;
 
     @NotNull(message = "is required")

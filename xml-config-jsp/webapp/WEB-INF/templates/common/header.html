@@ -2,11 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 
-    <div th:fragment="logged-in-user">
+    <div th:fragment="logged-in-user-info">
         <form id="logoutForm" action="#" th:action="@{/logout}" method="POST">
             <div class="align-middle">Hello <b th:text="${session.customSecurityUser.fullName}" /> !</div>
             <a class="nav-link active" href="#" onclick="document.getElementById('logoutForm').submit();">Logout</a>
         </form>
     </div>
+
+    <div th:fragment="log-in-link">
+            <a class="nav-link active" th:href="@{/login}">Login</a>
+    </div>
+
 </body>
 </html>

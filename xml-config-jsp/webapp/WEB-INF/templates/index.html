@@ -11,16 +11,18 @@
 </head>
 <body>
 <div class="container">
-
-    <div th:replace="common/header :: logged-in-user"></div>
+    <div th:if="${session.customSecurityUser != null}">
+        <div th:replace="common/header :: logged-in-user-info" ></div>
+    </div>
+    <div th:if="${session.customSecurityUser == null}">
+        <div th:replace="common/header :: log-in-link" ></div>
+    </div>
 
     <div class="page-header">
         <h3>Shopping list application</h3>
     </div>
     <hr>
-
-    <hr>
-    <a class="nav-link active" href="@{/product/list}">Show product list</a>
+    <a class="nav-link active" th:href="@{/product/list}">Show product list</a>
 </div>
 </body>
 </html>
