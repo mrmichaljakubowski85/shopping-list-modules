@@ -1,31 +1,23 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<div th:replace="common/head-section :: headSection ('List of Products')"/>
 
-    <title>List of Products</title>
-</head>
 <body>
 
-<div class="container">
+<div class="container py-3">
 
-    <div th:replace="common/header :: logged-in-user-info"></div>
-    <div class="page-header">
-        <h3>List of Products</h3>
-    </div>
+    <div th:replace="common/header :: loggedInUserInfo"/>
+
+    <h3>List of Products</h3>
     <hr>
-    <a th:href="@{/employees/add}" class="btn btn-primary btn-sm mb-3">Add Product</a>
 
+    <a th:href="@{/product/add}" class="btn btn-primary btn-sm mb-3">Add Product</a>
 
     <table class="table table-bordered table-striped">
         <thead class="thead-dark">
         <tr>
             <th>Title</th>
-            <th>Description</th>
             <th>Quantity</th>
             <th>Unit</th>
             <th>Checked</th>
@@ -36,27 +28,26 @@
         <tbody>
         <tr th:each="product : ${products}">
 
-            <td th:text="*{title}"/>
-            <td th:text="*{description}"/>
-            <td th:text="*{quantity}"/>
-            <td th:text="*{unit}"/>
-            <td>
-                <div>
+            <td th:text="${product.title}"/>
+            <td th:text="${product.quantity}"/>
+            <td th:text="${product.unit}"/>
+            <td class="center">
+
                     <input type="checkbox" th:checked="${product.checked}"/>
-                </div>
+
             </td>
             <td>
                 <div class="row">
-                    <div class="col-md">
+                    <div class="col-auto">
                         <form action="#" th:action="@{/product/details}" method="POST">
 
-                            <input type="hidden" name="productId" th:value="*{id}"/>
+                            <input type="hidden" name="productId" th:value="${product.id}"/>
                             <button type="submit" class="btn btn-info btn-sm">Details</button>
 
                         </form>
                     </div>
 
-                    <div class="col-md">
+                    <div class="col-auto">
                         <form action="#" th:action="@{/product/delete}" method="POST">
 
                             <input type="hidden" name="productId" th:value="${product.id}"/>

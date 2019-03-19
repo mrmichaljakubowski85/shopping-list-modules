@@ -16,8 +16,6 @@ import java.util.logging.Logger;
 @RequestMapping("/register")
 public class RegistrationController {
 
-    private Logger logger = Logger.getLogger(getClass().getName());
-
     private final UserService userService;
 
     public RegistrationController(UserService userService) {
@@ -42,31 +40,24 @@ public class RegistrationController {
             BindingResult bindingResult,
             Model model) {
 
-        String userName = registerUserDto.getUsername();
-//        logger.info("Processing registration form for: " + userName);
-
-        //validation
         if (bindingResult.hasErrors()) {
             return "registration-form";
         }
 
+        String userName = registerUserDto.getUsername();
         boolean userNameExists = userService.checkIfUserNameExists(userName);
         if (userNameExists) {
-//            logger.warning("User name already exists.");
             return handleUserOrEmailExists(model);
         }
 
         String email = registerUserDto.getEmail();
         boolean emailExists = userService.checkIfEmailExists(email);
         if (emailExists) {
-//            logger.warning("Email already exists.");
             return handleUserOrEmailExists(model);
         }
 
         //create new account
         userService.save(registerUserDto);
-
-//        logger.info("Successfully created user: " + userName);
 
         return "registration-confirmation";
     }

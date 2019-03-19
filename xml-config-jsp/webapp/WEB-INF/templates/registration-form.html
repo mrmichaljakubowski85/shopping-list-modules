@@ -1,14 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<div th:replace="common/head-section :: headSection ('Register New User')"/>
 
-    <title>Register New User</title>
-</head>
 <body>
 
 <div class="container py-3">
@@ -21,7 +15,7 @@
           method="POST">
 
         <div class="row">
-            <div class="col-6">
+            <div class="col-auto">
                 <div th:if="${registrationError != null}" th:text="${registrationError}"
                      class="alert alert-danger"/>
             </div>
@@ -55,7 +49,6 @@
                     <label for="firstName">First name</label>
                     <input type="text" th:field="*{firstName}" class="form-control" th:errorclass="is-invalid"/>
                     <div th:if="${#fields.hasErrors('firstName')}" class="invalid-feedback" th:errors="*{firstName}"/>
-
                 </div>
             </div>
             <div class="col-md">
@@ -63,15 +56,13 @@
                     <label for="lastName">Last name</label>
                     <input type="text" th:field="*{lastName}" class="form-control" th:errorclass="is-invalid"/>
                     <div th:if="${#fields.hasErrors('lastName')}" class="invalid-feedback" th:errors="*{lastName}"/>
-
                 </div>
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group mb-4">
             <label for="email">Email</label>
-            <input type="text" th:field="*{email}" placeholder="email"
-                   class="form-control" th:errorclass="is-invalid"/>
+            <input type="text" th:field="*{email}" class="form-control" th:errorclass="is-invalid"/>
             <div th:if="${#fields.hasErrors('email')}" class="invalid-feedback" th:errors="*{email}"/>
 
         </div>

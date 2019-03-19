@@ -7,10 +7,12 @@ import com.tomtre.shoppinglist.backend.exception.BadRequestException;
 import com.tomtre.shoppinglist.backend.exception.ProductExistsException;
 import com.tomtre.shoppinglist.backend.exception.ProductNotFoundException;
 import com.tomtre.shoppinglist.backend.service.ProductService;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -29,6 +31,12 @@ public class ProductController {
         this.productService = productService;
     }
 
+    @InitBinder
+    public void initBinder(WebDataBinder dataBinder) {
+        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+        dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
+    }
+
     @GetMapping("/list")
     public String listProducts(HttpSession httpSession, Model model) {
         List<Product> products = productService.findProductsOrderByCreateDateTime(getUserId(httpSession));
@@ -40,7 +48,7 @@ public class ProductController {
     public String addProductForm(Model model) {
         Product product = new Product();
         model.addAttribute("product", product);
-        return "add-edit-product-form";
+        return "add-edit-product";
     }
 
     @PostMapping("/edit")
@@ -48,13 +56,13 @@ public class ProductController {
             throws ProductNotFoundException {
         Product product = productService.getProduct(productId, getUserId(httpSession));
         model.addAttribute("product", product);
-        return "add-edit-product-form";
+        return "add-edit-product";
     }
 
     @PostMapping("/save")
     public String saveProduct(HttpSession httpSession, @ModelAttribute("product") @Valid Product product, BindingResult bindingResult) throws ProductExistsException {
         if (bindingResult.hasErrors()) {
-            return "add-edit-product-form";
+            return "add-edit-product";
         }
         if (product.getId() == null) {
             productService.addProduct(product, getUserId(httpSession));

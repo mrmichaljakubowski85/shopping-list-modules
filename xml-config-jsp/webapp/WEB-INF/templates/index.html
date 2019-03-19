@@ -1,22 +1,37 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-    <div th:include="common/head-section :: headSection ('Home Page')" />
+<div th:replace="common/head-section :: headSection ('Home Page')"/>
 
 <body>
-<div class="container">
-    <div th:if="${session.customSecurityUser != null}">
-        <div th:replace="common/header :: logged-in-user-info" ></div>
-    </div>
-    <div th:if="${session.customSecurityUser == null}">
-        <div th:replace="common/header :: log-in-link" ></div>
-    </div>
+<div class="container py-3">
 
-    <div class="page-header">
-        <h3>Shopping list application</h3>
+    <th:block th:if="${session.customSecurityUser != null}">
+        <div th:replace="common/header :: loggedInUserInfo"/>
+    </th:block>
+
+    <th:block th:if="${session.customSecurityUser == null}">
+        <div th:replace="common/header :: logInButton"/>
+    </th:block>
+
+    <h3>Shopping list application</h3>
+    <hr class="mb-5">
+
+    <h5>Functionality:</h5>
+    <ul class="list-group list-group-flush mb-4">
+        <li class="list-group-item">Create new user</li>
+        <li class="list-group-item">Log in to / logout from the application</li>
+        <li class="list-group-item">Browse list of products</li>
+        <li class="list-group-item">Add new product to the list</li>
+        <li class="list-group-item">View details of the selected product</li>
+        <li class="list-group-item">Check / uncheck, delete, edit product</li>
+        <li class="list-group-item">Support for REST methods</li>
+    </ul>
+    <div class="row">
+        <div class="col-auto">
+            <a class="btn btn-outline-primary" th:href="@{/product/list}">Show product list</a>
+        </div>
     </div>
-    <hr>
-    <a class="nav-link active" th:href="@{/product/list}">Show product list</a>
 </div>
 </body>
 </html>

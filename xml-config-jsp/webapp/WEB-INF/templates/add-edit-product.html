@@ -1,26 +1,23 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<th:block th:if="${product.id != null}">
+    <div th:replace="common/head-section :: headSection ('Edit Product')" />
+</th:block>
+<th:block th:if="${product.id == null}">
+    <div th:replace="common/head-section :: headSection ('Add new Product')"/>
+</th:block>
 
-    <div th:include="common/head-section :: headSection (${product.id != null ? 'Edit Product' : 'Add new Product'})" />
-
-</head>
 <body>
 
-<div class="container">
+<div class="container py-3">
 
-    <div th:replace="common/header :: logged-in-user-info"></div>
+    <div th:replace="common/header :: loggedInUserInfo"/>
 
-    <h3 th:text="${product.id != null ? 'Edit Product' : 'Add new Product'})" />
+    <h3 th:text="${product.id != null ? 'Edit Product' : 'Add new Product'}"/>
     <hr>
 
-    <form action="#" th:action="@{/product/save}"
-          th:object="${product}"
-          method="POST">
+    <form action="#" th:action="@{/product/save}" th:object="${product}" method="POST">
 
         <div class="form-group">
             <label for="title">Title</label>
@@ -40,19 +37,16 @@
             <div th:if="${#fields.hasErrors('quantity')}" class="invalid-feedback" th:errors="*{quantity}"/>
         </div>
 
-        <div class="form-group">
+        <div class="form-group mb-4">
             <label for="unit">Unit</label>
             <input type="text" th:field="*{unit}" class="form-control" th:errorclass="is-invalid"/>
             <div th:if="${#fields.hasErrors('unit')}" class="invalid-feedback" th:errors="*{unit}"/>
         </div>
 
-        <div class="form-group">
-            <label for="unit">Checked</label>
-            <input type="checkbox" th:checked="*{checked}" />
-        </div>
-
         <button type="submit" class="btn btn-outline-primary">Save</button>
     </form>
+
+    <div th:replace="common/navigation-section :: backToProductList"/>
 
 </div>
 

@@ -1,12 +1,15 @@
 package com.tomtre.shoppinglist.backend.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "products")
 public class Product extends TimestampUuidEntity {
 
+    @NotEmpty(message = "is required")
     @Size(max = 255, message= "max 255 characters")
     @Column(nullable = false)
     private String title;
