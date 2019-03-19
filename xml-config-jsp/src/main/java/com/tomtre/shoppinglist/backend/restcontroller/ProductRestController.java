@@ -47,9 +47,9 @@ public class ProductRestController {
     }
 
     @DeleteMapping("/products/{productId}")
-    //todo what to return?
-    public void deleteProduct(Principal principal, @PathVariable UUID productId) {
+    public UUID deleteProduct(Principal principal, @PathVariable UUID productId) {
         productService.deleteProduct(productId, getUserId(principal));
+        return productId;
     }
 
     private long getUserId(Principal principal) {

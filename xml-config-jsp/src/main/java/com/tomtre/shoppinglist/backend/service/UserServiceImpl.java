@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
                 .setUsername(user.getUsername())
                 .setId(user.getId())
                 .setPassword(user.getPassword())
-                .setFullName(user.getFirstName() != null ? user.getFirstName() : "" + " " + user.getLastName())
+                .setFullName((user.getFirstName() != null ? user.getFirstName() : "") + " " + user.getLastName())
                 .setAuthorities(mapRolesToAuthorities(user.getRoles()))
                 .build();
     }

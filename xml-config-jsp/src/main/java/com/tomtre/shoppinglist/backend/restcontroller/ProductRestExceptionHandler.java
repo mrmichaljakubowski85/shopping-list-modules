@@ -34,6 +34,8 @@ public class ProductRestExceptionHandler {
     }
 
     @ExceptionHandler
+
+    @ExceptionHandler
     public ResponseEntity<ProductErrorResponse> handleException(Exception e) {
         logger.warning("REST Exception occurred: " + e.toString());
         ProductErrorResponse productErrorResponse = new ProductErrorResponse(
