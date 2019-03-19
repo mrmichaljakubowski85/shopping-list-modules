@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
@@ -35,19 +36,11 @@ public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/api/**").hasRole(SecurityRoles.USER)
                 .and()
-                .formLogin()
-                .loginPage("/login")
-                .loginProcessingUrl("/authenticateTheUser")
-                .successHandler(customAuthenticationSuccessHandler)
-                .permitAll()
+                .httpBasic()
                 .and()
-                .logout()
-//                    .logoutSuccessHandler(customLogoutSuccessHandler)
-                .permitAll()
-                .and()
-                .exceptionHandling()
-                .accessDeniedPage("/access-denied");
-    }
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+     }
 
 
     private DaoAuthenticationProvider authenticationProvider() {
