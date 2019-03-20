@@ -1,5 +1,7 @@
 package com.tomtre.shoppinglist.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -14,6 +16,7 @@ public class User extends TimestampIdEntity {
     @Column(name = USER_NAME_COLUMN_NAME, nullable = false)
     private String username;
 
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 
@@ -26,6 +29,7 @@ public class User extends TimestampIdEntity {
     @Column(name = EMAIL_COLUMN_NAME, nullable = false)
     private String email;
 
+    @JsonIgnore
     //created as a list and ManyToMany relationship for future extension
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     @JoinTable(name = "users_roles",

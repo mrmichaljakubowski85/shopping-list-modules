@@ -7,9 +7,9 @@ import com.tomtre.shoppinglist.backend.exception.ProductExistsException;
 import com.tomtre.shoppinglist.backend.exception.ProductNotFoundException;
 import com.tomtre.shoppinglist.backend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,35 +25,31 @@ public class ProductRestController {
     }
 
     @GetMapping("/products")
-    public List<Product> getProducts(Principal principal) {
-        return productService.findProductsOrderByCreateDateTime(getUserId(principal));
+    public List<Product> getProducts(@AuthenticationPrincipal CustomSecurityUser customSecurityUser) {
+        return productService.findProductsOrderByCreateDateTime(customSecurityUser.getId());
     }
 
     @GetMapping("/products/{productId}")
-    public Product getProduct(Principal principal, @PathVariable UUID productId) throws ProductNotFoundException {
-        return productService.getProduct(productId,getUserId(principal));
+    public Product getProduct(@AuthenticationPrincipal CustomSecurityUser customSecurityUser, @PathVariable UUID productId) throws ProductNotFoundException {
+        return productService.getProduct(productId, customSecurityUser.getId());
     }
 
     @PostMapping("/products")
-    public Product addProduct(Principal principal, @RequestBody Product product) throws ProductExistsException {
-        productService.addProduct(product, getUserId(principal));
+    public Product addProduct(@AuthenticationPrincipal CustomSecurityUser customSecurityUser, @RequestBody Product product) throws ProductExistsException {
+        productService.addProduct(product, customSecurityUser.getId());
         return product;
     }
 
     @PutMapping("/products")
-    public Product updateProduct(Principal principal, @RequestBody Product product) {
-        productService.updateProduct(product, getUserId(principal));
+    public Product updateProduct(@AuthenticationPrincipal CustomSecurityUser customSecurityUser, @RequestBody Product product) {
+        productService.updateProduct(product, customSecurityUser.getId());
         return product;
     }
 
     @DeleteMapping("/products/{productId}")
-    public UUID deleteProduct(Principal principal, @PathVariable UUID productId) {
-        productService.deleteProduct(productId, getUserId(principal));
+    public UUID deleteProduct(@AuthenticationPrincipal CustomSecurityUser customSecurityUser, @PathVariable UUID productId) {
+        productService.deleteProduct(productId, customSecurityUser.getId());
         return productId;
-    }
-
-    private long getUserId(Principal principal) {
-        return ((CustomSecurityUser) principal).getId();
     }
 
 }

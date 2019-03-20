@@ -1,6 +1,5 @@
 package com.tomtre.shoppinglist.backend.controller;
 
-import com.tomtre.shoppinglist.backend.config.security.CustomAuthenticationSuccessHandler;
 import com.tomtre.shoppinglist.backend.dto.CustomSecurityUser;
 import com.tomtre.shoppinglist.backend.entity.Product;
 import com.tomtre.shoppinglist.backend.exception.BadRequestException;
@@ -8,14 +7,13 @@ import com.tomtre.shoppinglist.backend.exception.ProductExistsException;
 import com.tomtre.shoppinglist.backend.exception.ProductNotFoundException;
 import com.tomtre.shoppinglist.backend.service.ProductService;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
@@ -38,8 +36,8 @@ public class ProductController {
     }
 
     @GetMapping("/list")
-    public String listProducts(HttpSession httpSession, Model model) {
-        List<Product> products = productService.findProductsOrderByCreateDateTime(getUserId(httpSession));
+    public String listProducts(@AuthenticationPrincipal CustomSecurityUser customSecurityUser, Model model) {
+        List<Product> products = productService.findProductsOrderByCreateDateTime(customSecurityUser.getId());
         model.addAttribute("products", products);
         return "product-list";
     }
@@ -52,47 +50,47 @@ public class ProductController {
     }
 
     @PostMapping("/edit")
-    public String editProduct(HttpSession httpSession, @RequestParam("productId") UUID productId, Model model)
+    public String editProduct(@AuthenticationPrincipal CustomSecurityUser customSecurityUser, @RequestParam("productId") UUID productId, Model model)
             throws ProductNotFoundException {
-        Product product = productService.getProduct(productId, getUserId(httpSession));
+        Product product = productService.getProduct(productId, customSecurityUser.getId());
         model.addAttribute("product", product);
         return "add-edit-product";
     }
 
     @PostMapping("/save")
-    public String saveProduct(HttpSession httpSession, @ModelAttribute("product") @Valid Product product, BindingResult bindingResult) throws ProductExistsException {
+    public String saveProduct(@AuthenticationPrincipal CustomSecurityUser customSecurityUser, @ModelAttribute("product") @Valid Product product, BindingResult bindingResult) throws ProductExistsException {
         if (bindingResult.hasErrors()) {
             return "add-edit-product";
         }
         if (product.getId() == null) {
-            productService.addProduct(product, getUserId(httpSession));
+            productService.addProduct(product, customSecurityUser.getId());
         } else {
-            productService.updateProduct(product, getUserId(httpSession));
+            productService.updateProduct(product, customSecurityUser.getId());
         }
         return "redirect:/product/list";
     }
 
     @PostMapping("/delete")
-    public String deleteProduct(HttpSession httpSession, @RequestParam("productId") UUID productId) {
-        productService.deleteProduct(productId, getUserId(httpSession));
+    public String deleteProduct(@AuthenticationPrincipal CustomSecurityUser customSecurityUser, @RequestParam("productId") UUID productId) {
+        productService.deleteProduct(productId, customSecurityUser.getId());
         return "redirect:/product/list";
     }
 
     @PostMapping("/details")
-    public String productDetails(HttpSession httpSession, @RequestParam("productId") UUID productId, Model model) throws ProductNotFoundException {
-        Product product = productService.getProduct(productId, getUserId(httpSession));
+    public String productDetails(@AuthenticationPrincipal CustomSecurityUser customSecurityUser, @RequestParam("productId") UUID productId, Model model) throws ProductNotFoundException {
+        Product product = productService.getProduct(productId, customSecurityUser.getId());
         model.addAttribute("product", product);
         return "product-details";
     }
 
     @PostMapping("/check")
-    public String checkProduct(HttpSession httpSession, @RequestParam("productId") UUID productId, @RequestParam("action") String actionType) throws BadRequestException {
+    public String checkProduct(@AuthenticationPrincipal CustomSecurityUser customSecurityUser, @RequestParam("productId") UUID productId, @RequestParam("action") String actionType) throws BadRequestException {
         switch (actionType) {
             case "check":
-                productService.checkProduct(productId, getUserId(httpSession));
+                productService.checkProduct(productId, customSecurityUser.getId());
                 break;
             case "uncheck":
-                productService.uncheckProduct(productId, getUserId(httpSession));
+                productService.uncheckProduct(productId, customSecurityUser.getId());
                 break;
             default:
                 throw new BadRequestException();
@@ -100,8 +98,4 @@ public class ProductController {
         return "redirect:/product/list";
     }
 
-    private long getUserId(HttpSession session) {
-        CustomSecurityUser customSecurityUser = (CustomSecurityUser) session.getAttribute(CustomAuthenticationSuccessHandler.PRINCIPAL_SESSION_ATTRIBUTE_NAME);
-        return customSecurityUser.getId();
-    }
 }

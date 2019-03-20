@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
@@ -40,7 +41,7 @@ public class ProductExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public String handleException(Exception e) {
-        logger.warning("Exception occurred: " + e.toString());
+        logger.log(Level.WARNING ,"Exception occurred:", e);
         return "error/global-error";
     }
 }

@@ -1,11 +1,11 @@
-package com.tomtre.shoppinglist.backend.restcontroller;
+package com.tomtre.shoppinglist.backend.dto;
 
-public class ProductErrorResponse {
+public class ErrorResponse {
     private final int status;
     private final String message;
     private final long timeStamp;
 
-    public ProductErrorResponse(int status, String message, long timeStamp) {
+    public ErrorResponse(int status, String message, long timeStamp) {
         this.status = status;
         this.message = message;
         this.timeStamp = timeStamp;
